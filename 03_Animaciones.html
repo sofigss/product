@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHA Boutique · Animaciones — Fade In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: "GlossyDisplay";
+      src: url("../../../boutique/GlossyDisplay-Light.otf") format("opentype");
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sha-cream:    #F5F2EC;
+      --sha-bg:       #FFFBF3;
+      --sha-black:    #1A1A1A;
+      --sha-gray-900: #2C2C2C;
+      --sha-gray-700: #4A4A4A;
+      --sha-gray-500: #7A7A7A;
+      --sha-gray-300: #C8C8C8;
+      --sha-gray-100: #EDEDEA;
+      --sha-white:    #FFFFFF;
+      --sha-gold:     #B8A06A;
+
+      --sha-anim-duration-subtle:  400ms;
+      --sha-anim-duration-default: 600ms;
+      --sha-anim-duration-hero:    900ms;
+      --sha-anim-stagger:          100ms;
+      --sha-anim-easing:           cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --sha-anim-offset-y:         20px;
+
+      --font-serif: 'Georgia', 'Times New Roman', serif;
+      --font-ui:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --font-display: "GlossyDisplay", 'Georgia', serif;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--sha-cream);
+      color: var(--sha-gray-900);
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-wrap { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; }
+
+    /* ── Header ── */
+    .doc-header { border-bottom: 1px solid var(--sha-gray-300); padding-bottom: 32px; margin-bottom: 56px; }
+    .doc-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sha-gold); margin-bottom: 12px; }
+    .doc-title { font-family: var(--font-serif); font-size: 32px; font-weight: 400; color: var(--sha-black); letter-spacing: -0.02em; margin-bottom: 16px; }
+    .doc-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .meta-item { font-size: 12px; color: var(--sha-gray-500); }
+    .meta-item strong { color: var(--sha-gray-700); font-weight: 500; }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 64px; }
+    .section-title { font-family: var(--font-serif); font-size: 20px; font-weight: 400; color: var(--sha-black); margin-bottom: 8px; letter-spacing: -0.01em; }
+    .section-lead { font-size: 14px; color: var(--sha-gray-500); margin-bottom: 24px; max-width: 620px; }
+    .divider { border: none; border-top: 1px solid var(--sha-gray-100); margin-bottom: 64px; }
+
+    /* ── Rule block ── */
+    .rule-block { background: var(--sha-white); border: 1px solid var(--sha-gray-100); border-left: 3px solid var(--sha-gold); border-radius: var(--radius-md); padding: 20px 24px; margin-bottom: 32px; }
+    .rule-block p { font-size: 14px; color: var(--sha-gray-700); margin: 0; }
+    .rule-block strong { color: var(--sha-black); font-weight: 500; }
+
+    /* ── Tables ── */
+    .token-table, .mod-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 24px; }
+    .token-table th, .mod-table th { font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--sha-gray-500); font-weight: 500; text-align: left; padding: 8px 12px; background: var(--sha-gray-100); }
+    .mod-table th:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+    .mod-table th:last-child  { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+    .token-table th { background: none; border-bottom: 1px solid var(--sha-gray-300); }
+    .token-table td, .mod-table td { padding: 10px 12px; border-bottom: 1px solid var(--sha-gray-100); color: var(--sha-gray-700); vertical-align: top; }
+    .token-table tr:last-child td, .mod-table tr:last-child td { border-bottom: none; }
+    .token-table td:first-child { font-family: 'SFMono-Regular','Consolas',monospace; font-size: 12px; color: var(--sha-black); white-space: nowrap; }
+    .token-table td:nth-child(2) { font-family: 'SFMono-Regular','Consolas',monospace; font-size: 12px; color: var(--sha-gold); }
+    .mod-table td:first-child { color: var(--sha-gray-900); }
+    .mod-table code { font-family: 'SFMono-Regular','Consolas',monospace; font-size: 11px; background: var(--sha-gray-100); color: var(--sha-gray-900); padding: 2px 6px; border-radius: var(--radius-sm); }
+    .page-tag { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sha-gray-500); margin-bottom: 10px; margin-top: 32px; }
+    .page-tag:first-of-type { margin-top: 0; }
+
+    /* ── Code blocks ── */
+    .code-wrap { background: var(--sha-gray-900); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; }
+    .code-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .code-lang { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    pre { padding: 20px; overflow-x: auto; font-size: 12.5px; line-height: 1.8; }
+    code { font-family: 'SFMono-Regular','Consolas','Monaco',monospace; color: #D4C9A8; }
+    .c-comment  { color: #6B7280; }
+    .c-property { color: #93C5FD; }
+    .c-value    { color: #FCD34D; }
+    .c-selector { color: #86EFAC; }
+    .c-keyword  { color: #F9A8D4; }
+    .c-string   { color: #FCD34D; }
+    .c-number   { color: #A5F3FC; }
+
+    /* ── Lists ── */
+    .dontdo-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .dontdo-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--sha-gray-700); padding: 12px 16px; background: var(--sha-white); border: 1px solid var(--sha-gray-100); border-radius: var(--radius-md); }
+    .dontdo-list li .icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .icon-no  { background: #FEE2E2; color: #991B1B; }
+    .icon-yes { background: #D1FAE5; color: #065F46; }
+
+    /* ── Accessibility block ── */
+    .a11y-block { background: var(--sha-white); border: 1px solid var(--sha-gray-100); border-radius: var(--radius-lg); padding: 20px 24px; }
+    .a11y-block h3 { font-size: 13px; font-weight: 500; color: var(--sha-black); margin-bottom: 8px; }
+    .a11y-block p { font-size: 13px; color: var(--sha-gray-500); margin-bottom: 16px; }
+
+    /* ── Inline code ── */
+    .ic { font-family: 'SFMono-Regular','Consolas',monospace; font-size: 13px; background: var(--sha-gray-100); padding: 2px 6px; border-radius: 3px; }
+
+    /* ── Footer ── */
+    .doc-footer { border-top: 1px solid var(--sha-gray-300); padding-top: 24px; margin-top: 80px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-brand, .footer-version { font-size: 12px; color: var(--sha-gray-500); }
+
+    /* ════════════════════════════════════════
+       DEMO CONTAINER — shared toolbar
+    ════════════════════════════════════════ */
+    .demo-container { background: var(--sha-white); border: 1px solid var(--sha-gray-100); border-radius: var(--radius-lg); overflow: hidden; }
+    .demo-topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--sha-gray-100); }
+    .demo-topbar-label { font-size: 12px; font-weight: 500; color: var(--sha-gray-700); letter-spacing: 0.04em; }
+    .demo-body { padding: 28px 24px; }
+    .demo-sep { border: none; border-top: 1px solid var(--sha-gray-100); margin: 24px 0; }
+    .demo-sub-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sha-gray-500); margin-bottom: 6px; }
+    .demo-sub-desc  { font-size: 12px; color: var(--sha-gray-500); margin-bottom: 14px; }
+
+    /* ── Play button ── */
+    .play-btn {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--font-ui); font-size: 12px; font-weight: 500;
+      padding: 7px 14px; border-radius: var(--radius-md);
+      border: 1px solid var(--sha-gray-300); background: transparent;
+      color: var(--sha-gray-700); cursor: pointer;
+      transition: background 150ms, border-color 150ms;
+    }
+    .play-btn:hover { background: var(--sha-gray-100); border-color: var(--sha-gray-500); }
+    .play-btn:disabled { opacity: 0.4; cursor: default; }
+    .play-btn svg { width: 11px; height: 11px; fill: var(--sha-gray-700); }
+
+    /* ════════════════════════════════════════
+       PRELOADER DEMO
+    ════════════════════════════════════════ */
+    .pl-demo {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      background: #0a0a0a;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    /* Subtle dark gradient background */
+    .pl-hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, #1c1a14 0%, #0a0a0a 70%);
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .pl-hero-bg.show { opacity: 1; }
+
+    /* Curtain panels */
+    .pl-top {
+      position: absolute; top: 0; left: 0; right: 0; height: 50%;
+      background: #FFFBF3; z-index: 5;
+      transition: transform 1.4s cubic-bezier(.76,0,.24,1);
+    }
+    .pl-top.up { transform: translateY(-101%); }
+
+    .pl-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+      background: #FFFBF3; z-index: 5;
+      transition: transform 1.4s cubic-bezier(.76,0,.24,1);
+    }
+    .pl-bottom.down { transform: translateY(101%); }
+
+    /* Centered text */
+    .pl-center {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10; text-align: center;
+      transition: opacity 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .pl-word-wrap {
+      position: relative; display: inline-block;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 1.2s cubic-bezier(.22,.61,.36,1), transform 1.2s cubic-bezier(.22,.61,.36,1);
+    }
+    .pl-word-wrap.in  { opacity: 1; transform: translateY(0); }
+    .pl-word-wrap.out { opacity: 0; transform: translateY(-6px); transition: opacity 0.5s ease, transform 0.7s ease; }
+
+    .pl-ghost, .pl-fill {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(18px, 2.5vw, 28px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .pl-ghost { color: rgba(61,58,51,0.2); display: block; }
+    .pl-fill  { position: absolute; top: 0; left: 0; color: #3D3A33; clip-path: inset(0 100% 0 0); }
+    .pl-tm    { font-size: 0.32em; vertical-align: 0.9em; margin-left: 0.1em; letter-spacing: 0.04em; }
+    .pl-ghost .pl-tm { color: rgba(61,58,51,0.2); }
+    .pl-fill  .pl-tm { color: #3D3A33; }
+
+    /* Replay btn inside preloader */
+    .pl-replay {
+      position: absolute; bottom: 16px; right: 16px; z-index: 20;
+      font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 8px 14px; border-radius: 999px;
+      background: rgba(255,251,243,0.1); border: 1px solid rgba(255,251,243,0.3);
+      color: #FFFBF3; cursor: pointer;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease, background 0.2s ease;
+    }
+    .pl-replay:hover  { background: rgba(255,251,243,0.22); }
+    .pl-replay.show   { opacity: 1; pointer-events: auto; }
+
+    /* Timeline annotations */
+    .pl-timeline {
+      display: flex; gap: 0;
+      margin-top: 16px;
+      border: 1px solid var(--sha-gray-100);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      font-size: 11px;
+    }
+    .pl-tl-step {
+      flex: 1; padding: 10px 12px;
+      border-right: 1px solid var(--sha-gray-100);
+      background: var(--sha-white);
+    }
+    .pl-tl-step:last-child { border-right: none; }
+    .pl-tl-time { color: var(--sha-gold); font-weight: 500; margin-bottom: 2px; }
+    .pl-tl-desc { color: var(--sha-gray-500); line-height: 1.4; }
+
+    /* ════════════════════════════════════════
+       DURATION BOXES DEMO
+    ════════════════════════════════════════ */
+    .dur-row { display: flex; gap: 12px; }
+    .dur-box {
+      flex: 1; background: var(--sha-cream);
+      border: 1px solid var(--sha-gray-100); border-radius: var(--radius-md);
+      padding: 16px; min-height: 88px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      opacity: 0; transform: translateY(20px);
+    }
+    .dur-box.d-subtle  { transition: opacity var(--sha-anim-duration-subtle)  var(--sha-anim-easing), transform var(--sha-anim-duration-subtle)  var(--sha-anim-easing); }
+    .dur-box.d-default { transition: opacity var(--sha-anim-duration-default) var(--sha-anim-easing), transform var(--sha-anim-duration-default) var(--sha-anim-easing); }
+    .dur-box.d-hero    { transition: opacity var(--sha-anim-duration-hero)    var(--sha-anim-easing), transform var(--sha-anim-duration-hero)    var(--sha-anim-easing); }
+    .dur-box.is-visible { opacity: 1; transform: translateY(0); }
+    .dur-tag  { font-size: 10px; color: var(--sha-gray-500); margin-bottom: 3px; }
+    .dur-name { font-size: 13px; font-weight: 500; color: var(--sha-gray-900); }
+    .dur-ms   { font-size: 11px; color: var(--sha-gold); margin-top: 3px; }
+
+    /* ════════════════════════════════════════
+       STAGGER DEMO
+    ════════════════════════════════════════ */
+    .stagger-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .stagger-card {
+      background: var(--sha-cream); border: 1px solid var(--sha-gray-100); border-radius: var(--radius-md);
+      padding: 14px 12px; min-height: 96px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--sha-anim-duration-default) var(--sha-anim-easing), transform var(--sha-anim-duration-default) var(--sha-anim-easing);
+    }
+    .stagger-card.is-visible { opacity: 1; transform: translateY(0); }
+    .sc-pill  { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: var(--sha-gray-100); color: var(--sha-gray-500); align-self: flex-start; margin-bottom: 8px; display: inline-block; }
+    .sc-name  { font-size: 12px; font-weight: 500; color: var(--sha-gray-900); }
+    .sc-delay { font-size: 10px; color: var(--sha-gray-500); margin-top: 6px; }
+
+    /* ════════════════════════════════════════
+       HERO SEQUENCE DEMO
+    ════════════════════════════════════════ */
+    .hero-demo { background: var(--sha-black); border-radius: var(--radius-md); padding: 32px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .hd-eyebrow { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sha-gold); opacity: 0; transform: translateY(14px); transition: opacity var(--sha-anim-duration-hero) var(--sha-anim-easing), transform var(--sha-anim-duration-hero) var(--sha-anim-easing); transition-delay: 0ms; }
+    .hd-headline { font-family: var(--font-serif); font-size: 22px; font-weight: 400; color: var(--sha-white); letter-spacing: -0.02em; opacity: 0; transform: translateY(14px); transition: opacity var(--sha-anim-duration-hero) var(--sha-anim-easing), transform var(--sha-anim-duration-hero) var(--sha-anim-easing); transition-delay: 150ms; }
+    .hd-sub { font-size: 13px; color: rgba(255,255,255,0.5); max-width: 420px; opacity: 0; transform: translateY(14px); transition: opacity var(--sha-anim-duration-hero) var(--sha-anim-easing), transform var(--sha-anim-duration-hero) var(--sha-anim-easing); transition-delay: 300ms; }
+    .hd-cta { margin-top: 8px; align-self: flex-start; font-size: 12px; padding: 9px 18px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.25); color: var(--sha-white); background: transparent; opacity: 0; transform: translateY(14px); transition: opacity var(--sha-anim-duration-default) var(--sha-anim-easing), transform var(--sha-anim-duration-default) var(--sha-anim-easing); transition-delay: 450ms; cursor: default; font-family: var(--font-ui); }
+    .hd-eyebrow.is-visible, .hd-headline.is-visible, .hd-sub.is-visible, .hd-cta.is-visible { opacity: 1; transform: translateY(0); }
+    .hero-demo-row { display: flex; gap: 20px; align-items: flex-start; }
+    .delay-labels { display: flex; flex-direction: column; gap: 26px; padding-top: 12px; flex-shrink: 0; }
+    .dl-item { font-size: 11px; color: var(--sha-gray-500); display: flex; align-items: center; gap: 6px; }
+    .dl-dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--sha-gold); flex-shrink: 0; }
+
+    /* ════════════════════════════════════════
+       WIREFRAME MODULE — SCROLL DEMO
+    ════════════════════════════════════════ */
+    .scroll-demo-wrapper { position: relative; border: 1px solid var(--sha-gray-100); border-radius: var(--radius-lg); overflow: hidden; }
+    .scroll-demo-hint {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 16px; background: var(--sha-white);
+      border-bottom: 1px solid var(--sha-gray-100);
+      font-size: 11px; color: var(--sha-gray-500); letter-spacing: 0.04em;
+    }
+    .scroll-demo-hint svg { width: 12px; height: 12px; stroke: var(--sha-gray-500); fill: none; stroke-width: 2; flex-shrink: 0; animation: bounceDown 1.6s ease-in-out infinite; }
+    @keyframes bounceDown { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+
+    .scroll-area {
+      height: 420px;
+      overflow-y: auto;
+      background: var(--sha-cream);
+      scroll-behavior: smooth;
+    }
+    .scroll-area::-webkit-scrollbar { width: 4px; }
+    .scroll-area::-webkit-scrollbar-track { background: transparent; }
+    .scroll-area::-webkit-scrollbar-thumb { background: var(--sha-gray-300); border-radius: 2px; }
+
+    .scroll-spacer { height: 280px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 24px; }
+    .scroll-spacer-label { font-size: 11px; color: var(--sha-gray-300); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* The wireframe module */
+    .wf-module {
+      display: flex;
+      min-height: 360px;
+      background: var(--sha-white);
+      margin: 0 0 120px 0;
+    }
+
+    /* Image side */
+    .wf-image {
+      width: 50%;
+      background: var(--sha-gray-100);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity var(--sha-anim-duration-hero) var(--sha-anim-easing),
+                  transform var(--sha-anim-duration-hero) var(--sha-anim-easing);
+      transition-delay: 0ms;
+    }
+    .wf-image.is-visible { opacity: 1; transform: translateX(0); }
+
+    /* Placeholder grid pattern */
+    .wf-image-inner {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wf-image-label {
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--sha-gray-300); background: var(--sha-white);
+      padding: 6px 14px; border-radius: 999px;
+      border: 1px solid var(--sha-gray-300);
+    }
+
+    /* Content side */
+    .wf-content {
+      flex: 1;
+      padding: 60px 52px;
+      display: flex; flex-direction: column; gap: 0;
+      justify-content: center;
+    }
+
+    .wf-eyebrow {
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--sha-gray-500); margin-bottom: 20px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--sha-anim-duration-hero) var(--sha-anim-easing),
+                  transform var(--sha-anim-duration-hero) var(--sha-anim-easing);
+      transition-delay: 100ms;
+    }
+    .wf-eyebrow.is-visible { opacity: 1; transform: translateY(0); }
+
+    .wf-headline {
+      font-family: var(--font-serif); font-size: 36px; font-weight: 400;
+      color: var(--sha-black); line-height: 1.15; letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--sha-anim-duration-hero) var(--sha-anim-easing),
+                  transform var(--sha-anim-duration-hero) var(--sha-anim-easing);
+      transition-delay: 220ms;
+    }
+    .wf-headline.is-visible { opacity: 1; transform: translateY(0); }
+
+    .wf-subtitle {
+      font-size: 14px; font-weight: 500; color: var(--sha-gray-900);
+      margin-bottom: 12px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--sha-anim-duration-default) var(--sha-anim-easing),
+                  transform var(--sha-anim-duration-default) var(--sha-anim-easing);
+      transition-delay: 340ms;
+    }
+    .wf-subtitle.is-visible { opacity: 1; transform: translateY(0); }
+
+    .wf-body {
+      font-size: 13px; color: var(--sha-gray-500); line-height: 1.7;
+      margin-bottom: 28px; max-width: 380px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--sha-anim-duration-default) var(--sha-anim-easing),
+                  transform var(--sha-anim-duration-default) var(--sha-anim-easing);
+      transition-delay: 420ms;
+    }
+    .wf-body.is-visible { opacity: 1; transform: translateY(0); }
+
+    .wf-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 22px; border-radius: var(--radius-sm);
+      background: var(--sha-black); color: var(--sha-white);
+      align-self: flex-start; cursor: default;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--sha-anim-duration-default) var(--sha-anim-easing),
+                  transform var(--sha-anim-duration-default) var(--sha-anim-easing);
+      transition-delay: 520ms;
+    }
+    .wf-cta.is-visible { opacity: 1; transform: translateY(0); }
+    .wf-cta svg { width: 12px; height: 12px; stroke: var(--sha-white); fill: none; stroke-width: 2; }
+
+    /* Annotation overlay */
+    .wf-annotations {
+      padding: 16px 20px;
+      background: var(--sha-white);
+      border-top: 1px solid var(--sha-gray-100);
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .wf-ann-tag {
+      font-size: 10px; color: var(--sha-gray-500);
+      background: var(--sha-gray-100);
+      padding: 4px 10px; border-radius: 20px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .wf-ann-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sha-gold); flex-shrink: 0; }
+
+    /* ── reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .dur-box, .stagger-card,
+      .hd-eyebrow, .hd-headline, .hd-sub, .hd-cta,
+      .wf-image, .wf-eyebrow, .wf-headline, .wf-subtitle, .wf-body, .wf-cta {
+        opacity: 1 !important; transform: none !important; transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ── HEADER ── -->
+  <header class="doc-header">
+    <p class="doc-eyebrow">SHA Boutique · Documentación interna</p>
+    <h1 class="doc-title">Animaciones — Fade In</h1>
+    <div class="doc-meta">
+      <span class="meta-item"><strong>Versión</strong> 1.0</span>
+      <span class="meta-item"><strong>Fecha</strong> Mayo 2026</span>
+      <span class="meta-item"><strong>Responsable</strong> Elastic Heads</span>
+      <span class="meta-item"><strong>Plataforma</strong> HubSpot CMS</span>
+    </div>
+  </header>
+
+  <!-- ── PRINCIPIO ── -->
+  <section class="section">
+    <h2 class="section-title">Principio general</h2>
+    <p class="section-lead">Las animaciones refuerzan la percepción de marca premium y autoridad médica. El movimiento debe ser casi imperceptible: no atrae atención sobre sí mismo, sino que hace que el contenido aparezca con intención.</p>
+    <div class="rule-block">
+      <p><strong>Regla de oro:</strong> Si el usuario nota la animación, es demasiado rápida, demasiado lenta, o demasiado obvia. Cualquier animación que llame la atención sobre sí misma es incorrecta.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════
+       PRELOADER
+  ══════════════════════════════ -->
+  <section class="section">
+    <h2 class="section-title">Preloader</h2>
+    <p class="section-lead">Primera animación que ve el usuario. Cortinas cream que se abren revelando el hero. El texto "Masters of longevity™" se rellena de izquierda a derecha antes de la apertura.</p>
+
+    <div class="pl-demo" id="plDemo">
+      <div class="pl-hero-bg" id="plHeroBg"></div>
+      <div class="pl-top"    id="plTop"></div>
+      <div class="pl-bottom" id="plBottom"></div>
+      <div class="pl-center" id="plCenter">
+        <div class="pl-word-wrap" id="plWordWrap">
+          <span class="pl-ghost">Masters of longevity<span class="pl-tm">™</span></span>
+          <span class="pl-fill" id="plFill">Masters of longevity<span class="pl-tm">™</span></span>
+        </div>
+      </div>
+      <button class="pl-replay" id="plReplay" onclick="runPreloader()">Replay</button>
+    </div>
+
+    <div class="pl-timeline">
+      <div class="pl-tl-step">
+        <div class="pl-tl-time">0 ms</div>
+        <div class="pl-tl-desc">Cortinas visibles. Texto aparece.</div>
+      </div>
+      <div class="pl-tl-step">
+        <div class="pl-tl-time">900 ms</div>
+        <div class="pl-tl-desc">Fill de texto comienza (2.6 s).</div>
+      </div>
+      <div class="pl-tl-step">
+        <div class="pl-tl-time">3.5 s</div>
+        <div class="pl-tl-desc">Texto se desvanece hacia arriba.</div>
+      </div>
+      <div class="pl-tl-step">
+        <div class="pl-tl-time">3.8 s</div>
+        <div class="pl-tl-desc">Cortinas se abren (1.4 s).</div>
+      </div>
+      <div class="pl-tl-step" style="border-right:none;">
+        <div class="pl-tl-time">5.2 s</div>
+        <div class="pl-tl-desc">Hero completamente visible.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════
+       DEMO INTERACTIVO — duraciones, stagger, hero
+  ══════════════════════════════ -->
+  <section class="section">
+    <h2 class="section-title">Demo interactivo</h2>
+    <p class="section-lead">Las tres variantes de duración, el stagger en grid de producto y la secuencia encadenada de un bloque hero.</p>
+
+    <div class="demo-container">
+      <div class="demo-topbar">
+        <span class="demo-topbar-label">Previsualización de animaciones</span>
+        <button class="play-btn" id="playBtn" onclick="runDemo()">
+          <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 1.5l8 4.5-8 4.5V1.5z"/></svg>
+          Reproducir
+        </button>
+      </div>
+
+      <div class="demo-body" id="demoArea">
+
+        <p class="demo-sub-label">Duraciones</p>
+        <p class="demo-sub-desc">Las tres variantes en paralelo, de más rápida a más lenta.</p>
+        <div class="dur-row">
+          <div class="dur-box d-subtle"  id="db1"><div class="dur-tag">subtle</div><div class="dur-name">Elementos secundarios</div><div class="dur-ms">400 ms</div></div>
+          <div class="dur-box d-default" id="db2"><div class="dur-tag">default</div><div class="dur-name">Módulos estándar</div><div class="dur-ms">600 ms</div></div>
+          <div class="dur-box d-hero"    id="db3"><div class="dur-tag">hero</div><div class="dur-name">Heroes y cabeceras</div><div class="dur-ms">900 ms</div></div>
+        </div>
+
+        <hr class="demo-sep">
+
+        <p class="demo-sub-label">Stagger — grid de producto</p>
+        <p class="demo-sub-desc">Cada tarjeta aparece 100 ms después de la anterior.</p>
+        <div class="stagger-grid">
+          <div class="stagger-card" id="sc1" style="transition-delay:0ms">
+            <div><span class="sc-pill">SHA Daily</span><div class="sc-name">Longevity Complex</div></div>
+            <div class="sc-delay">delay 0 ms</div>
+          </div>
+          <div class="stagger-card" id="sc2" style="transition-delay:100ms">
+            <div><span class="sc-pill">SHA Sleep</span><div class="sc-name">Rest & Recovery</div></div>
+            <div class="sc-delay">delay 100 ms</div>
+          </div>
+          <div class="stagger-card" id="sc3" style="transition-delay:200ms">
+            <div><span class="sc-pill">SHA Detox</span><div class="sc-name">Cellular Reset</div></div>
+            <div class="sc-delay">delay 200 ms</div>
+          </div>
+          <div class="stagger-card" id="sc4" style="transition-delay:300ms">
+            <div><span class="sc-pill">SHA Energy</span><div class="sc-name">Metabolism Boost</div></div>
+            <div class="sc-delay">delay 300 ms</div>
+          </div>
+        </div>
+
+        <hr class="demo-sep">
+
+        <p class="demo-sub-label">Secuencia hero</p>
+        <p class="demo-sub-desc">Eyebrow → headline → subtítulo → CTA, encadenados con 150 ms de separación.</p>
+        <div class="hero-demo-row">
+          <div class="hero-demo">
+            <div class="hd-eyebrow"  id="hEy">SHA Masters of Longevity</div>
+            <div class="hd-headline" id="hHl">Precision supplementation for long-term health.</div>
+            <div class="hd-sub"      id="hSb">Backed by 20 years of clinical research and +100,000 patients treated at SHA Wellness Clinic.</div>
+            <div class="hd-cta"      id="hCt">Shop by goal</div>
+          </div>
+          <div class="delay-labels">
+            <div class="dl-item"><span class="dl-dot"></span>0 ms</div>
+            <div class="dl-item"><span class="dl-dot"></span>150 ms</div>
+            <div class="dl-item"><span class="dl-dot"></span>300 ms</div>
+            <div class="dl-item"><span class="dl-dot"></span>450 ms</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════
+       MÓDULO COMPLETO — SCROLL TRIGGER
+  ══════════════════════════════ -->
+  <section class="section">
+    <h2 class="section-title">Módulo completo en scroll</h2>
+    <p class="section-lead">Así se comporta un módulo split (imagen + contenido) cuando el usuario llega a él haciendo scroll. La imagen entra desde la izquierda; el contenido, elemento a elemento, desde abajo.</p>
+
+    <div class="scroll-demo-wrapper">
+      <div class="scroll-demo-hint">
+        <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6 1v10M2 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Haz scroll dentro del recuadro para ver la animación
+      </div>
+
+      <div class="scroll-area" id="scrollArea">
+        <div class="scroll-spacer"><span class="scroll-spacer-label">Scroll ↓</span></div>
+
+        <div class="wf-module" id="wfModule">
+          <!-- Imagen -->
+          <div class="wf-image" id="wfImg">
+            <div class="wf-image-inner">
+              <span class="wf-image-label">Imagen</span>
+            </div>
+          </div>
+          <!-- Contenido -->
+          <div class="wf-content">
+            <div class="wf-eyebrow"  id="wfEy">Longevity</div>
+            <div class="wf-headline" id="wfHl">Lorem ipsum<br>dolor sit amet</div>
+            <div class="wf-subtitle" id="wfSb">Lorem ipsum</div>
+            <div class="wf-body"     id="wfBd">Revisión del historial médico, entrevista personal y evaluación de la salud. Se realiza un diagnóstico oriental, se asigna una dieta personalizada y un programa de estilo de vida saludable.</div>
+            <div class="wf-cta"      id="wfCt">
+              Book now
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-annotations">
+        <span class="wf-ann-tag"><span class="wf-ann-dot"></span>Imagen — hero 900ms, translateX(−16px)</span>
+        <span class="wf-ann-tag"><span class="wf-ann-dot"></span>Eyebrow — hero 900ms, delay 100ms</span>
+        <span class="wf-ann-tag"><span class="wf-ann-dot"></span>Headline — hero 900ms, delay 220ms</span>
+        <span class="wf-ann-tag"><span class="wf-ann-dot"></span>Subtitle — default 600ms, delay 340ms</span>
+        <span class="wf-ann-tag"><span class="wf-ann-dot"></span>Body — default 600ms, delay 420ms</span>
+        <span class="wf-ann-tag"><span class="wf-ann-dot"></span>CTA — default 600ms, delay 520ms</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── TOKENS ── -->
+  <section class="section">
+    <h2 class="section-title">Tokens de animación</h2>
+    <p class="section-lead">Definidos como custom properties CSS a nivel <span class="ic">:root</span> para garantizar consistencia global y facilitar ajustes desde un único punto.</p>
+
+    <table class="token-table">
+      <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td>--sha-anim-duration-subtle</td><td>400ms</td><td>Elementos pequeños o secundarios</td></tr>
+        <tr><td>--sha-anim-duration-default</td><td>600ms</td><td>Módulos estándar</td></tr>
+        <tr><td>--sha-anim-duration-hero</td><td>900ms</td><td>Heroes y cabeceras de página</td></tr>
+        <tr><td>--sha-anim-stagger</td><td>100ms</td><td>Separación entre elementos encadenados</td></tr>
+        <tr><td>--sha-anim-easing</td><td>cubic-bezier(0.25, 0.46, 0.45, 0.94)</td><td>Todos los módulos</td></tr>
+        <tr><td>--sha-anim-offset-y</td><td>20px</td><td>Desplazamiento vertical de entrada</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang">CSS — tokens globales</span></div>
+      <pre><code><span class="c-selector">:root</span> {
+  <span class="c-property">--sha-anim-duration-subtle</span>:  <span class="c-value">400ms</span>;
+  <span class="c-property">--sha-anim-duration-default</span>: <span class="c-value">600ms</span>;
+  <span class="c-property">--sha-anim-duration-hero</span>:    <span class="c-value">900ms</span>;
+  <span class="c-property">--sha-anim-stagger</span>:          <span class="c-value">100ms</span>;
+  <span class="c-property">--sha-anim-easing</span>:           <span class="c-value">cubic-bezier(0.25, 0.46, 0.45, 0.94)</span>;
+  <span class="c-property">--sha-anim-offset-y</span>:         <span class="c-value">20px</span>;
+}</code></pre>
+    </div>
+  </section>
+
+
+  <hr class="divider">
+
+  <!-- ── CASOS DE USO ── -->
+  <section class="section">
+    <h2 class="section-title">Casos de uso por módulo</h2>
+    <p class="section-lead">Referencia rápida para saber qué clase aplicar en cada tipo de módulo.</p>
+
+    <p class="page-tag">P01 · Homepage</p>
+    <table class="mod-table">
+      <thead><tr><th>Módulo</th><th>Clase</th><th>Duración</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td>Hero — headline</td><td><code>sha-fade-in--hero</code></td><td>900ms</td><td>Sin delay — es lo primero que carga</td></tr>
+        <tr><td>Hero — subtítulo</td><td><code>sha-fade-in--hero</code></td><td>900ms</td><td>Delay: 200ms respecto al headline</td></tr>
+        <tr><td>Hero — CTA</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Delay: 400ms respecto al headline</td></tr>
+        <tr><td>Cifras / stats de autoridad</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger 100ms entre cada cifra</td></tr>
+        <tr><td>Tarjetas "Shop by Goal"</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger 100ms entre tarjetas</td></tr>
+        <tr><td>Módulo editorial destacado</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Imagen y texto como un único bloque</td></tr>
+        <tr><td>Footer</td><td><code>sha-fade-in--subtle</code></td><td>400ms</td><td>Sutil — el footer no necesita énfasis</td></tr>
+      </tbody>
+    </table>
+
+    <p class="page-tag">P02 · Catálogo — Shop by Goal</p>
+    <table class="mod-table">
+      <thead><tr><th>Módulo</th><th>Clase</th><th>Duración</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td>Cabecera de página</td><td><code>sha-fade-in--hero</code></td><td>900ms</td><td>Carga inmediata al llegar a la página</td></tr>
+        <tr><td>Filtros / categorías</td><td><code>sha-fade-in--subtle</code></td><td>400ms</td><td>Delay: 150ms tras la cabecera</td></tr>
+        <tr><td>Tarjetas de producto (grid)</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger 100ms; máximo 4 en primera fila</td></tr>
+        <tr><td>Nuevos ítems (scroll infinito)</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger sólo en los ítems nuevos</td></tr>
+      </tbody>
+    </table>
+
+    <p class="page-tag">P04 · PDP — Product Detail Page</p>
+    <table class="mod-table">
+      <thead><tr><th>Módulo</th><th>Clase</th><th>Duración</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td>Imagen del producto</td><td><code>sha-fade-in--hero</code></td><td>900ms</td><td>Protagonista visual — merece más tiempo</td></tr>
+        <tr><td>Nombre + descripción + precio</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Delay: 100ms respecto a la imagen</td></tr>
+        <tr><td>Toggle suscripción / compra</td><td><code>sha-fade-in--subtle</code></td><td>400ms</td><td>Delay: 200ms</td></tr>
+        <tr><td>Accordions (ingredientes, ciencia)</td><td><code>sha-fade-in</code></td><td>600ms</td><td>El bloque completo, no cada accordion</td></tr>
+        <tr><td>Médico prescriptor</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Foto + nombre + credenciales como bloque</td></tr>
+        <tr><td>Cross-sell "parte del protocolo"</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger 100ms entre productos</td></tr>
+      </tbody>
+    </table>
+
+    <p class="page-tag">P07–P08 · Journal</p>
+    <table class="mod-table">
+      <thead><tr><th>Módulo</th><th>Clase</th><th>Duración</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td>Hero editorial del artículo</td><td><code>sha-fade-in--hero</code></td><td>900ms</td><td>—</td></tr>
+        <tr><td>Tarjetas de artículo (hub)</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger 100ms</td></tr>
+        <tr><td>Cuerpo del artículo</td><td>Sin animación</td><td>—</td><td>No animar texto de lectura larga</td></tr>
+        <tr><td>Artículos relacionados</td><td><code>sha-fade-in</code></td><td>600ms</td><td>Stagger 100ms</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── LO QUE NO SE ANIMA ── -->
+  <section class="section">
+    <h2 class="section-title">Lo que no se anima</h2>
+    <p class="section-lead">Tan importante como saber qué animar es saber qué no animar.</p>
+    <ul class="dontdo-list">
+      <li><span class="icon icon-no">✕</span>Imágenes de fondo (background-image en heroes) — se cargan con el CSS; animar el fondo genera efecto de parpadeo.</li>
+      <li><span class="icon icon-no">✕</span>Navegación y header — siempre visible, sin animación de entrada.</li>
+      <li><span class="icon icon-no">✕</span>Cuerpo de texto en artículos del Journal — la animación por párrafo interrumpe la lectura.</li>
+      <li><span class="icon icon-no">✕</span>Botones, inputs y toggles — tienen sus propias microinteracciones de hover/focus.</li>
+      <li><span class="icon icon-no">✕</span>Modales y overlays — siguen sus propias reglas (documentación de componentes interactivos, pendiente).</li>
+    </ul>
+  </section>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Elastic Heads para SHA Wellness Clinic</span>
+    <span class="footer-version">v1.0 · Mayo 2026</span>
+  </footer>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ── Helpers ── */
+function disableTransitions(els) {
+  els.forEach(el => { el.style.transition = 'none'; });
+}
+function enableTransitions(els) {
+  els.forEach(el => { el.style.transition = ''; });
+}
+function forceReflow(el) {
+  void el.offsetHeight;
+}
+
+/* ══════════════════════════════
+   DEMO INTERACTIVO (play button)
+══════════════════════════════ */
+const DEMO_IDS = {
+  dur:     ['db1','db2','db3'],
+  stagger: ['sc1','sc2','sc3','sc4'],
+  hero:    ['hEy','hHl','hSb','hCt']
+};
+
+function getAllDemoEls() {
+  const ids = [...DEMO_IDS.dur, ...DEMO_IDS.stagger, ...DEMO_IDS.hero];
+  return ids.map(id => document.getElementById(id));
+}
+
+function runDemo() {
+  const btn = document.getElementById('playBtn');
+  btn.disabled = true;
+
+  const els = getAllDemoEls();
+
+  /* 1. Kill all transitions so reset is instant */
+  disableTransitions(els);
+  els.forEach(el => el.classList.remove('is-visible'));
+  forceReflow(document.getElementById('demoArea'));
+
+  /* 2. Re-enable transitions */
+  enableTransitions(els);
+
+  /* 3. One rAF to let the browser register the new state */
+  requestAnimationFrame(() => {
+    DEMO_IDS.dur.forEach(id => document.getElementById(id).classList.add('is-visible'));
+    DEMO_IDS.stagger.forEach(id => document.getElementById(id).classList.add('is-visible'));
+    DEMO_IDS.hero.forEach(id => document.getElementById(id).classList.add('is-visible'));
+    /* Re-enable button after longest animation (900ms hero + 450ms delay + buffer) */
+    setTimeout(() => { btn.disabled = false; }, 1500);
+  });
+}
+
+/* Auto-play on load */
+window.addEventListener('load', () => setTimeout(runDemo, 400));
+
+
+/* ══════════════════════════════
+   SCROLL MODULE DEMO
+══════════════════════════════ */
+(function() {
+  const scrollArea = document.getElementById('scrollArea');
+  const wfEls = ['wfImg','wfEy','wfHl','wfSb','wfBd','wfCt'].map(id => document.getElementById(id));
+  let triggered = false;
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      if (triggered) return;
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          triggered = true;
+          wfEls.forEach(el => el.classList.add('is-visible'));
+          obs.disconnect();
+        }
+      });
+    },
+    {
+      root:       scrollArea,
+      threshold:  0.15,
+      rootMargin: '0px'
+    }
+  );
+
+  obs.observe(document.getElementById('wfModule'));
+})();
+
+
+/* ══════════════════════════════
+   PRELOADER
+══════════════════════════════ */
+(function() {
+  const heroBg   = document.getElementById('plHeroBg');
+  const top      = document.getElementById('plTop');
+  const bottom   = document.getElementById('plBottom');
+  const center   = document.getElementById('plCenter');
+  const wordWrap = document.getElementById('plWordWrap');
+  const fill     = document.getElementById('plFill');
+  const replay   = document.getElementById('plReplay');
+
+  const FILL_MS  = 2600;
+  const SLIDE_MS = 1400;
+  let rafId = null;
+
+  function animateFill(onComplete) {
+    let startTs = null;
+    function step(ts) {
+      if (!startTs) startTs = ts;
+      const pct = Math.min((ts - startTs) / FILL_MS * 100, 100);
+      fill.style.clipPath = `inset(0 ${(100 - pct).toFixed(2)}% 0 0)`;
+      if (pct < 100) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        onComplete();
+      }
+    }
+    rafId = requestAnimationFrame(step);
+  }
+
+  window.runPreloader = function() {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+
+    /* Reset */
+    top.classList.remove('up');
+    bottom.classList.remove('down');
+    wordWrap.classList.remove('in','out');
+    heroBg.classList.remove('show');
+    replay.classList.remove('show');
+    center.style.opacity = '1';
+    fill.style.clipPath = 'inset(0 100% 0 0)';
+
+    setTimeout(() => heroBg.classList.add('show'), 400);
+    setTimeout(() => wordWrap.classList.add('in'), 150);
+
+    setTimeout(() => {
+      animateFill(() => {
+        setTimeout(() => {
+          wordWrap.classList.remove('in');
+          wordWrap.classList.add('out');
+          center.style.opacity = '0';
+        }, 300);
+
+        setTimeout(() => {
+          top.classList.add('up');
+          bottom.classList.add('down');
+        }, 680);
+
+        setTimeout(() => {
+          replay.classList.add('show');
+        }, 680 + SLIDE_MS + 300);
+      });
+    }, 900);
+  };
+
+  window.addEventListener('load', () => setTimeout(runPreloader, 300));
+})();
+</script>
+
+</body>
+</html>
