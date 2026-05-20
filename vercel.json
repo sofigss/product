@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/SHA/Contexto/SHA_Boutique/Documentacion_Interna/03_Animaciones.html"
+    }
+  ]
+}
