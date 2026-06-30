@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Documentos y binarios
+*.docx
+*.pdf
+*.zip
+
+# Archivos y carpetas que no van al repo
+SHA/AGENTS.md
+SHA/Benchmarking_Catalogo_Tratamientos_SHA.md
+SHA/Contexto/
+SHA/Design_Brief_Microsite_Catalogo_SHA.md
+SHA/Design_Brief_Microsite_Catalogo_SHA_v2.md
+SHA/Onboarding_SHA_Product_Designer.md
+SHA/Portadas - colores/
+SHA/SHA_Digital_Guidelines_Presentation_Script.md
+SHA/SHA_Email_Access_Booking.md
+SHA/SHA_Guidelines_Script_Simple.md
+SHA/SHA_Wellness_Notion_Overview.md
+SHA/TreatmentCatalogue-ClassicProposal.zip
+SHA/TreatmentCatalogue-EditorialProposal.zip
+SHA/_PARA_ELIMINAR_Notion_Export/
+SHA/boutique/
+SHA/empty-state-sha.html
+SHA/fonts/
+SHA/sha-treatments-2026.md
+SHA/sistema-visual.html
+SHA/wireframes-sha-microsite.html

@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHA — Catalog · Wireframe</title>
+  <style>
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Thin.woff2') format('woff2');     font-weight:100; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Light.woff2') format('woff2');    font-weight:300; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Regular.woff2') format('woff2');  font-weight:400; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Medium.woff2') format('woff2');   font-weight:500; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Semibold.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Bold.woff2') format('woff2');     font-weight:700; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Bold.woff2') format('woff2');     font-weight:800; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Bold.woff2') format('woff2');     font-weight:900; font-style:normal; font-display:swap; }
+  </style>
+  <style>
+    /* ── TOKENS (SHA Visual System) ─────────────────── */
+    :root {
+      --black:      #0A0A0A;
+      --dark:       #141414;
+      --white:      #FFFFFF;
+      --off-white:  #F8F7F4;
+      --gray-50:    #F9FAFB;
+      --gray-100:   #F3F4F6;
+      --gray-200:   #E5E7EB;
+      --gray-300:   #D1D5DB;
+      --gray-400:   #9CA3AF;
+      --gray-500:   #6B7280;
+      --gray-600:   #4B5563;
+      --gray-700:   #374151;
+
+      /* Wireframe palette */
+      --wf-img:     #D1D5DB;       /* image placeholder */
+      --wf-img-dk:  #374151;       /* dark image placeholder */
+      --wf-border:  rgba(0,0,0,.12);
+      --wf-badge:   rgba(0,0,0,.06);
+
+      --font: 'Graphik', 'Inter', -apple-system, sans-serif;
+      --sidebar-w: 244px;
+      --ease: cubic-bezier(.4,0,.2,1);
+      --max-w: 1440px;
+      --pad-x: 48px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    h1, h2, h3, h4, h5, h6 { font-weight: 400; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--off-white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── WIREFRAME LABEL ────────────────────────────── */
+    .wf-label {
+      position: fixed;
+      bottom: 16px; right: 16px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 4px;
+      z-index: 9999;
+      opacity: .6;
+    }
+
+    /* ── PLACEHOLDER HELPER ─────────────────────────── */
+    .img-ph {
+      background: var(--wf-img);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .img-ph--dark {
+      background: var(--wf-img-dk);
+      color: rgba(255,255,255,.3);
+    }
+
+    /* ─────────────────────────────────────────────────
+       HEADER — sistema visual: logo SHA izq / Reserve der
+    ───────────────────────────────────────────────── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 72px;
+      background: var(--off-white);
+      border-bottom: 1px solid var(--wf-border);
+    }
+    .header__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+    .header__lang {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .header__lang-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--black);
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 0;
+    }
+    .header__lang-chevron {
+      width: 10px; height: 10px;
+      display: inline-flex;
+      transition: transform .2s;
+    }
+    .header__lang-chevron svg { width: 10px; height: 10px; stroke: var(--black); stroke-width: 2; fill: none; }
+    .header__lang--open .header__lang-chevron { transform: rotate(180deg); }
+    .header__lang-dropdown {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      background: var(--off-white);
+      border: 1px solid var(--wf-border);
+      min-width: 80px;
+      display: none;
+      flex-direction: column;
+    }
+    .header__lang--open .header__lang-dropdown { display: flex; }
+    .header__lang-option {
+      font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(10,10,10,.45);
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: color .15s, background .15s;
+    }
+    .header__lang-option:hover { color: var(--black); background: rgba(0,0,0,.03); }
+    .header__lang-option--active { color: var(--black); font-weight: 700; }
+    .header__brand {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-align: center;
+    }
+    .header__right {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .header__reserve {
+      height: 40px;
+      padding: 0 28px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* ─────────────────────────────────────────────────
+       HERO (dark full-width)
+    ───────────────────────────────────────────────── */
+    .hero {
+      background: #17100e;
+      min-height: 600px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__bg {
+      display: none;
+    }
+    .hero__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 80px var(--pad-x) 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    .hero__eyebrow {
+      font-size: 64px;
+      color: var(--white);
+      letter-spacing: -3px;
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+    .hero__eyebrow span {
+      display: block;
+      padding-left: 269px;
+    }
+    .hero__body {
+      font-size: 18px;
+      color: rgba(255,255,255,.8);
+      max-width: 500px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+    .hero__ctas {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+    .hero__cta-outline {
+      height: 40px;
+      padding: 0 24px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 2px;
+      color: rgba(255,255,255,.8);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+    }
+    .hero__cta-solid {
+      height: 40px;
+      padding: 0 24px;
+      background: var(--white);
+      border-radius: 2px;
+      color: #17100e;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+    }
+    .hero__screenshot {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 520px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px 8px 0 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.25);
+    }
+
+    /* ─────────────────────────────────────────────────
+       LAYOUT: SIDEBAR + MAIN
+    ───────────────────────────────────────────────── */
+    .page-body {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 96px var(--pad-x) 0;
+    }
+
+    /* ── Sidebar chapter nav ────────────────────────── */
+    .sidebar-nav {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      width: var(--sidebar-w);
+    }
+
+    .sidebar-nav__item {
+      position: relative;
+      border-bottom: 1px solid rgba(2,9,23,.15);
+    }
+
+    .sidebar-nav__link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 0;
+      font-size: 12px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(23,16,14,.35);
+      transition: color .2s;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* The ● dot — hidden by default */
+    .sidebar-nav__dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #17100e;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity .25s var(--ease), transform .25s var(--ease);
+    }
+
+    /* Active state */
+    .sidebar-nav__item--active .sidebar-nav__dot {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .sidebar-nav__item--active .sidebar-nav__link {
+      color: #17100e;
+    }
+
+    /* Horizontal progress bar under active item */
+    .sidebar-nav__progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: #17100e;
+      transition: width .08s linear;
+    }
+
+    /* ── Main content ────────────────────────────── */
+    .main {
+      padding-left: 16px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    /* ─────────────────────────────────────────────────
+       SECTION: INTRODUCTION
+    ───────────────────────────────────────────────── */
+    .section { margin-bottom: 96px; }
+
+    .heading-xl {
+      font-size: 52px;
+      font-weight: 400;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .body-l {
+      font-size: 18px;
+      max-width: 480px;
+      line-height: 1.35;
+      letter-spacing: -.44px;
+      margin-bottom: 32px;
+    }
+
+    .intro-desc {
+      columns: 2;
+      column-gap: 40px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-600);
+      margin-bottom: 32px;
+    }
+    .intro-desc p { margin-bottom: 12px; break-inside: avoid; }
+    @media (max-width: 768px) {
+      .intro-desc { columns: 1; }
+    }
+
+    .hero-img-ph {
+      width: 100%;
+      height: 420px;
+      margin-bottom: 32px;
+    }
+
+    /* Stats block */
+    .stats-card {
+      padding: 49px 0;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .stats-card__label {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .stats-card__desc {
+      font-size: 16px;
+      color: var(--black);
+      line-height: 1.35;
+      margin-bottom: 16px;
+    }
+    .stats-card__link {
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--black);
+      display: inline-block;
+    }
+    .stats-list {
+      display: flex;
+      gap: 32px;
+    }
+    .stat-item {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+    .stat-item__num {
+      font-size: 84px;
+      letter-spacing: -2.88px;
+      line-height: 1;
+      color: #17100e;
+      margin-bottom: 20px;
+    }
+    .stat-item__num--muted {
+      color: rgba(23,16,14,.4);
+    }
+    .stat-item__text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.4;
+    }
+
+    /* ─────────────────────────────────────────────────
+       SECTION: TESTIMONIAL
+    ───────────────────────────────────────────────── */
+    .testimonial {
+      display: grid;
+      grid-template-columns: 666px 1fr;
+      gap: 32px;
+      margin-bottom: 96px;
+      align-items: start;
+    }
+    .testimonial__img {
+      height: 560px;
+      border-radius: 6px;
+    }
+    .testimonial__eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .testimonial__quote {
+      font-size: 28px;
+      letter-spacing: -1px;
+      line-height: 1.35;
+      color: var(--black);
+      margin-bottom: 24px;
+    }
+    .testimonial__name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .testimonial__role {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    .testimonial__link {
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--black);
+      display: inline-block;
+    }
+
+    /* ─────────────────────────────────────────────────
+       SECTION: BY GOAL (accordion)
+    ───────────────────────────────────────────────── */
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .heading-display {
+      font-size: 64px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      line-height: 1.18;
+      color: var(--black);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+    .body-m {
+      font-size: 18px;
+      max-width: 480px;
+      line-height: 1.35;
+      letter-spacing: -.44px;
+      margin-bottom: 60px;
+    }
+
+    .accordion {
+      border-top: 1px solid rgba(0,0,0,.2);
+    }
+    .accordion__item {
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0;
+      transition: background .15s;
+    }
+    .accordion__item:first-child { border-top: none; }
+    .accordion__left {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+    .accordion__title {
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(23,16,14,.35);
+      transition: color .2s;
+    }
+    .accordion__desc {
+      font-size: 14px;
+      line-height: 1.55;
+      color: rgba(23,16,14,.6);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      margin-top: 0;
+      transition: max-height .3s var(--ease), opacity .25s var(--ease), margin-top .25s var(--ease);
+    }
+    .accordion__item:hover {
+      background: rgba(0,0,0,.02);
+    }
+    .accordion__item:hover .accordion__title {
+      color: #17100e;
+    }
+    @media (min-width: 768px) {
+      .accordion__item:hover .accordion__desc {
+        max-height: 80px;
+        opacity: 1;
+        margin-top: 12px;
+      }
+    }
+    .accordion__arrow {
+      font-size: 20px;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 4px;
+      color: #17100e;
+      opacity: 0;
+      transition: transform .2s var(--ease), opacity .2s;
+    }
+    .accordion__item:hover .accordion__arrow {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    /* ─────────────────────────────────────────────────
+       SECTION: BY PROGRAM (cards)
+    ───────────────────────────────────────────────── */
+    .programs-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .program-card {
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .program-card__img {
+      height: 350px;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .program-card__img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      border-radius: 8px;
+      transition: background .25s var(--ease);
+    }
+    .program-card:hover .program-card__img::after {
+      background: rgba(0,0,0,.18);
+    }
+    .program-card__icon {
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,.15);
+      border-radius: 50%;
+    }
+    .program-card__tag {
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .program-card__title {
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .program-card__body {
+      font-size: 16px;
+      line-height: 1.625;
+    }
+
+
+    /* ─────────────────────────────────────────────────
+       SECTION: APP SCHEDULING (dark full-width)
+    ───────────────────────────────────────────────── */
+    .app-section {
+      background: var(--gray-300);
+      min-height: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 80px 16px;
+      border-radius: 8px;
+      margin-bottom: 96px;
+    }
+    .app-section__heading {
+      font-size: 80px;
+      font-weight: 400;
+      letter-spacing: -4px;
+      color: var(--white);
+      text-align: center;
+      max-width: 900px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .app-section__screenshot {
+      width: 766px;
+      height: 517px;
+      background: rgba(255,255,255,.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+
+    /* ─────────────────────────────────────────────────
+       SECTION: CONTACT HOOK
+    ───────────────────────────────────────────────── */
+    .contact-hook {
+      border-top: 1px solid var(--wf-border);
+      padding: 80px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .contact-hook__eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+    .contact-hook__heading {
+      font-size: 52px;
+      font-weight: 400;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .contact-hook__body {
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--gray-600);
+      max-width: 420px;
+    }
+    .contact-hook__cta {
+      height: 48px;
+      padding: 0 32px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+    @media (max-width: 768px) {
+      .contact-hook { padding: 48px 0; }
+      .contact-hook__heading { font-size: 32px; letter-spacing: -1px; }
+    }
+
+    /* ─────────────────────────────────────────────────
+       ANNOTATION CHIPS (optional guide)
+    ───────────────────────────────────────────────── */
+    .ann {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 4px;
+      padding: 3px 7px;
+      margin-bottom: 8px;
+    }
+    .ann::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gray-400);
+      flex-shrink: 0;
+    }
+
+    /* ═════════════════════════════════════════════════
+       RESPONSIVE — MOBILE  (≤ 768px)
+    ═════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* ── Variables móvil ── */
+      :root { --pad-x: 24px; }
+
+      /* ── Hero ── */
+      .hero__inner { padding: 40px var(--pad-x) 0; }
+      .hero__eyebrow { font-size: 36px; letter-spacing: -1px; }
+      .hero__eyebrow span { padding-left: 0; }
+      .hero__screenshot { height: 240px; }
+
+      /* ── Layout: quita el grid de 2 columnas ── */
+      .page-body {
+        grid-template-columns: 1fr;
+        padding: 0;
+      }
+
+      /* ── Sidebar → Tab bar horizontal sticky ──
+         Se queda sticky bajo el header (top: 72px).
+         La barra de progreso ya existente actúa de underline
+         del tab activo — sin JS adicional.
+      ── */
+      .sidebar-nav {
+        position: sticky;
+        top: 72px;
+        z-index: 90;
+        width: 100%;
+        background: var(--off-white);
+        border-bottom: 1px solid var(--wf-border);
+        /* horizontal */
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 0 var(--pad-x);
+        gap: 0;
+      }
+      .sidebar-nav::-webkit-scrollbar { display: none; }
+
+      .sidebar-nav__item {
+        flex-shrink: 0;
+        border-bottom: none;   /* quitamos el divisor vertical */
+        position: relative;
+      }
+      .sidebar-nav__link {
+        padding: 14px 16px;
+        white-space: nowrap;
+        font-size: 11px;
+        letter-spacing: .10em;
+        gap: 0;
+      }
+      /* El dot desaparece en mobile, la línea de progreso hace de underline */
+      .sidebar-nav__dot { display: none; }
+      .sidebar-nav__progress {
+        height: 2px;
+        bottom: 0;
+      }
+
+      /* ── Main content: padding compensado ── */
+      .main {
+        padding: 48px var(--pad-x) 0;
+        max-width: 100%;
+      }
+
+      /* ── Tipografías escaladas ── */
+      .heading-xl  { font-size: 40px; letter-spacing: -2px; }
+      .heading-display { font-size: 32px; letter-spacing: 0; }
+
+      /* ── Hero image placeholder ── */
+      .hero-img-ph { height: 220px; }
+
+      /* ── Stats card ── */
+      .stats-card {
+        grid-template-columns: 1fr;
+        padding: 28px var(--pad-x);
+      }
+      .stats-list { flex-direction: column; gap: 28px; }
+      .stat-item  { width: 100%; text-align: left; }
+      .stat-item__num { font-size: 56px; margin-bottom: 6px; }
+
+      /* ── Testimonial: imagen arriba, texto abajo ── */
+      .testimonial { grid-template-columns: 1fr; }
+      .testimonial__img { height: 260px; }
+      .testimonial__quote { font-size: 20px; }
+
+      /* ── Accordion: más aire, descripciones siempre visibles ── */
+      .accordion { border-top: none; }
+      .accordion__item {
+        min-height: auto;
+        padding: 28px 0;
+        border-top: 1px solid rgba(0,0,0,.12);
+        border-bottom: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .accordion__item:first-child { border-top: 1px solid rgba(0,0,0,.2); }
+      .accordion__left { gap: 10px; }
+      .accordion__title {
+        font-size: 15px;
+        letter-spacing: .06em;
+        color: var(--black);
+      }
+      .accordion__desc {
+        max-height: none !important;
+        opacity: 1 !important;
+        margin-top: 0 !important;
+        overflow: visible !important;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .accordion__arrow { align-self: flex-end; margin-top: -24px; }
+      .body-m { margin-bottom: 32px; }
+
+      /* ── Program cards: carrusel horizontal con scroll-snap ── */
+      .programs-grid {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        gap: 16px;
+        /* sangra hasta el borde compensando el padding del .main */
+        margin-left: calc(-1 * var(--pad-x));
+        margin-right: calc(-1 * var(--pad-x));
+        padding: 0 var(--pad-x) 8px;
+      }
+      .programs-grid::-webkit-scrollbar { display: none; }
+      .program-card {
+        width: 75vw;
+        flex-shrink: 0;
+        scroll-snap-align: start;
+      }
+      /* Último card: padding derecho para que no quede pegado al borde */
+      .program-card:last-child { margin-right: var(--pad-x); }
+      .program-card__img { height: 240px; }
+
+      /* ── Carousel dots ── */
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 20px;
+      }
+      .carousel-dots__dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: rgba(0,0,0,.18);
+        transition: background .2s, transform .2s;
+        flex-shrink: 0;
+      }
+      .carousel-dots__dot--active {
+        background: var(--black);
+        transform: scale(1.3);
+      }
+
+      /* ── App section ── */
+      .app-section { padding: 48px var(--pad-x); min-height: auto; border-radius: 6px; }
+      .app-section__heading { font-size: 32px; letter-spacing: -1px; }
+      .app-section__screenshot { width: 100%; height: 200px; }
+
+      /* ── Footer ── */
+      .footer { grid-template-columns: 1fr 1fr; gap: 32px 24px; margin-top: 48px; }
+      .footer__bottom { flex-direction: column; gap: 6px; }
+
+    } /* end @media mobile */
+
+    /* ─────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────── */
+    .footer {
+      max-width: var(--max-w);
+      margin: 80px auto 0;
+      padding: 48px var(--pad-x);
+      border-top: 1px solid var(--wf-border);
+      display: grid;
+      grid-template-columns: 180px repeat(2, 1fr);
+      gap: 32px;
+    }
+    .footer__brand {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .footer__col-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(0,0,0,.35);
+      margin-bottom: 16px;
+    }
+    .footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .footer__link { font-size: 13px; }
+    .footer__bottom {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 20px var(--pad-x) 40px;
+      display: flex; justify-content: space-between;
+      border-top: 1px solid var(--wf-border);
+      font-size: 11px; color: rgba(0,0,0,.35);
+    }
+  </style>
+</head>
+<body>
+
+<div class="wf-label">Wireframe — SHA Catalog</div>
+
+<!-- ══════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════ -->
+<header class="header">
+  <div class="header__inner">
+    <div class="header__lang" id="langSelector">
+      <div class="header__lang-trigger" onclick="toggleLang()">
+        <span id="langCurrent">EN</span>
+        <span class="header__lang-chevron">
+          <svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg>
+        </span>
+      </div>
+      <div class="header__lang-dropdown">
+        <span class="header__lang-option header__lang-option--active" onclick="selectLang(this,'EN')">EN</span>
+        <span class="header__lang-option" onclick="selectLang(this,'ES')">ES</span>
+        <span class="header__lang-option" onclick="selectLang(this,'RU')">RU</span>
+      </div>
+    </div>
+    <span class="header__brand">SHA</span>
+    <div class="header__right">
+      <a class="header__reserve" href="#">Contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════
+     HERO — dark background
+════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__inner">
+    <div class="hero__content">
+      <h1 class="hero__eyebrow">
+        THE SHA METHOD
+        <span>TREATMENTS AND SERVICES</span>
+      </h1>
+      <div class="hero__ctas">
+        <a class="hero__cta-outline" href="#">Contact</a>
+        <a class="hero__cta-solid" href="#by-goal">View treatment categories</a>
+      </div>
+    </div>
+    <div class="hero__screenshot">App Screenshot Placeholder</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE BODY: SIDEBAR + MAIN
+════════════════════════════════════════════════════ -->
+<div class="page-body">
+
+  <!-- Chapter Navigation -->
+  <aside class="sidebar-nav">
+
+    <div class="sidebar-nav__item" data-chapter="intro">
+      <a class="sidebar-nav__link" href="#intro">
+        <span class="sidebar-nav__dot"></span>
+        Introduction
+      </a>
+      <div class="sidebar-nav__progress"></div>
+    </div>
+
+    <div class="sidebar-nav__item" data-chapter="by-goal">
+      <a class="sidebar-nav__link" href="#by-goal">
+        <span class="sidebar-nav__dot"></span>
+        By Goal
+      </a>
+      <div class="sidebar-nav__progress"></div>
+    </div>
+
+    <div class="sidebar-nav__item" data-chapter="by-program">
+      <a class="sidebar-nav__link" href="#by-program">
+        <span class="sidebar-nav__dot"></span>
+        By Health Program
+      </a>
+      <div class="sidebar-nav__progress"></div>
+    </div>
+
+    <div class="sidebar-nav__item" data-chapter="app">
+      <a class="sidebar-nav__link" href="#app">
+        <span class="sidebar-nav__dot"></span>
+        Our App
+      </a>
+      <div class="sidebar-nav__progress"></div>
+    </div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ── SECTION 1: INTRODUCTION ───────────────── -->
+    <section class="section" id="intro" data-section="intro">
+      <h2 class="heading-xl">
+        Adapted to individual needs<br>unique to each person
+      </h2>
+      <div class="intro-desc">
+        <p>SHA is a life-transforming experience that helps people achieve and sustain optimal health, unlocking their full physical, mental and spiritual potential.</p>
+        <p>The SHA Method, scientifically designed to provide effective results in the shortest possible time, lies at its core. Its highly personalized, integrative approach blends holistic disciplines with advanced therapies in functional and preventive medicine, genetics, regenerative medicine, intestinal health and physical performance, complemented by anti-inflammatory nutrition to prevent chronic diseases and promote longevity.</p>
+        <p>This 360º approach not only enhances overall health but also equips participants with tailored tools to maintain and build on progress made.</p>
+        <p>Beyond extending life expectancy, the SHA Method seeks to ensure that those years are lived with exceptional quality, prioritizing physical, mental and emotional well-being.</p>
+      </div>
+      <!-- Hero Image -->
+      <div class="img-ph hero-img-ph">Hero Image</div>
+
+      <!-- Stats Card -->
+      <div class="stats-card">
+        <div>
+          <p class="stats-card__label">Global health data</p>
+          <p class="stats-card__desc">
+            SHA is rated highest on leading satisfaction ratings for health & wellness programs.
+          </p>
+          <a class="stats-card__link" href="#">Read the report →</a>
+        </div>
+        <div class="stats-list">
+          <div class="stat-item">
+            <div class="stat-item__num">51%</div>
+            <p class="stat-item__text">of the global population will face overweight issues by 2035</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__num stat-item__num--muted">80%</div>
+            <p class="stat-item__text">of health problems are linked to preventable chronic diseases</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__num stat-item__num--muted">25%</div>
+            <p class="stat-item__text">of adults suffer from chronic fatigue, associated with stress and metabolic imbalances</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TESTIMONIAL ───────────────────────────── -->
+    <section id="testimonial" data-section="intro" style="margin-bottom: 96px;">
+      <div class="testimonial">
+        <div class="img-ph testimonial__img">Portrait Image — 666 × 560</div>
+        <div>
+          <p class="testimonial__eyebrow">Testimonials</p>
+          <blockquote class="testimonial__quote">
+            "This 360º approach not only enhances overall health but also equips participants with tailored tools to maintain and build on progress made."
+          </blockquote>
+          <p class="testimonial__name">Angelo Livanos</p>
+          <p class="testimonial__role">Vice President, Global Support</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 2: BY GOAL ─────────────────────── -->
+    <section class="section" id="by-goal" data-section="by-goal">
+      <p class="section-eyebrow">Treatments by Goal</p>
+      <h2 class="heading-display">
+        Discover Treatments<br>by Health Field
+      </h2>
+      <div class="accordion">
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Advanced Preventive Diagnosis</span>
+            <span class="accordion__desc">Comprehensive evaluations to detect early risks through biomarker analysis, medical imaging and genetics.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Functional Medicine and Longevity</span>
+            <span class="accordion__desc">Personalized protocols to optimize cellular function, hormonal balance and healthy lifespan extension.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Nutrition and Intestinal Health</span>
+            <span class="accordion__desc">Anti-inflammatory nutritional therapies and microbiome restoration to improve metabolism and digestion.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Physical Performance</span>
+            <span class="accordion__desc">Assessment and training of strength, mobility and endurance tailored to your goals and physical condition.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Sleep Optimization</span>
+            <span class="accordion__desc">Diagnosis and treatment of sleep disorders to improve recovery, mood and cognition.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Regenerative Medicine</span>
+            <span class="accordion__desc">Advanced treatments for cellular regeneration, chronic pain relief and tissue restoration.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Cognitive Health &amp; Emotional Well-being</span>
+            <span class="accordion__desc">Assessment and support of brain function, stress management and emotional well-being.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Advanced Aesthetics</span>
+            <span class="accordion__desc">Non-invasive treatments for skin, body and hair with clinically backed results.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+        <a class="accordion__item" href="wireframe-tratamiento-detalle.html" style="text-decoration:none;">
+          <div class="accordion__left">
+            <span class="accordion__title">Holistic Health &amp; Well-being</span>
+            <span class="accordion__desc">Integrative therapies combining Eastern and Western practices for body-mind balance.</span>
+          </div>
+          <span class="accordion__arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── SECTION 3: BY PROGRAM ──────────────────── -->
+    <section class="section" id="by-program" data-section="by-program">
+      <p class="section-eyebrow">By Health Program</p>
+      <h2 class="heading-display">
+        Treatments by Program
+      </h2>
+      <div class="programs-grid">
+
+        <!-- Card 1 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Longevity</p>
+            <h3 class="program-card__title">Advanced Longevity</h3>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Flexibility</p>
+            <h3 class="program-card__title">Stay Your Way</h3>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Detox</p>
+            <h3 class="program-card__title">Detox &amp; Optimal Weight</h3>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Longevity</p>
+            <h3 class="program-card__title">Advanced Longevity</h3>
+          </div>
+        </a>
+
+        <!-- Card 5 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Longevity</p>
+            <h3 class="program-card__title">Rebalance &amp; Energize</h3>
+          </div>
+        </a>
+
+        <!-- Card 6 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Personalized</p>
+            <h3 class="program-card__title">Tailor-Made</h3>
+          </div>
+        </a>
+
+        <!-- Card 7 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Personalized</p>
+            <h3 class="program-card__title">Leader's Health &amp; Performance</h3>
+          </div>
+        </a>
+
+        <!-- Card 8 -->
+        <a class="program-card" href="wireframe-programa-detalle.html" style="text-decoration:none;color:inherit;">
+          <div class="img-ph program-card__img"></div>
+          <div>
+            <p class="program-card__tag">Personalized</p>
+            <h3 class="program-card__title">Leader's Health &amp; Performance</h3>
+          </div>
+        </a>
+
+      </div><!-- /programs-grid -->
+      <div class="carousel-dots" id="program-dots" aria-hidden="true"></div>
+    </section>
+
+    <!-- ── SECTION 4: APP (dark full-width) ──────── -->
+    <section id="app" data-section="app" style="margin-bottom: 96px;">
+      <div class="app-section">
+        <h2 class="app-section__heading">
+          Schedule treatments quickly and easily
+        </h2>
+        <div class="app-section__screenshot">App Screenshot Placeholder</div>
+      </div>
+    </section>
+
+    <!-- ── SECTION 5: CONTACT HOOK ───────────────── -->
+    <section id="contact" style="margin-bottom: 96px;">
+      <div class="contact-hook">
+        <p class="contact-hook__eyebrow">Start your journey</p>
+        <h2 class="contact-hook__heading">Ready to transform<br>your health?</h2>
+        <p class="contact-hook__body">Our team will help you find the programme and treatments best suited to your goals.</p>
+        <a class="contact-hook__cta" href="#">Contact SHA</a>
+      </div>
+    </section>
+
+  </main>
+</div><!-- /page-body -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer">
+    <div>
+      <div class="footer__brand">SHA</div>
+    </div>
+    <div>
+      <p class="footer__col-label">Integrative Method</p>
+      <div class="footer__links">
+        <a class="footer__link" href="wireframe-tratamiento-detalle.html">Advanced Preventive Diagnosis</a>
+        <a class="footer__link" href="wireframe-tratamiento-detalle.html">Functional Medicine &amp; Longevity</a>
+        <a class="footer__link" href="wireframe-tratamiento-detalle.html">Nutrition &amp; Intestinal Health</a>
+        <a class="footer__link" href="#">View all →</a>
+      </div>
+    </div>
+    <div>
+      <p class="footer__col-label">Programs</p>
+      <div class="footer__links">
+        <a class="footer__link" href="wireframe-programa-detalle.html">Advanced Longevity</a>
+        <a class="footer__link" href="wireframe-programa-detalle.html">Detox &amp; Optimal Weight</a>
+        <a class="footer__link" href="wireframe-programa-detalle.html">Rebalance &amp; Energize</a>
+        <a class="footer__link" href="wireframe-programa-detalle.html">Tailor-Made</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 SHA Wellness Clinic. All rights reserved.</span>
+    <span>Wireframe · v0.3</span>
+  </div>
+</footer>
+
+<script>
+  /* ─────────────────────────────────────────────────
+     SCROLL ACTIVE SIDEBAR — Intercom /helpdesk style
+     - All items always visible
+     - Active item: ● dot appears + text goes black bold
+     - Inactive items: no dot, muted gray
+     - Tracks which section occupies the top third of viewport
+  ───────────────────────────────────────────────── */
+  (function () {
+    // Each chapter maps to one or more section IDs
+    const CHAPTERS = [
+      { key: 'intro',      ids: ['intro', 'testimonial'] },
+      { key: 'by-goal',    ids: ['by-goal'] },
+      { key: 'by-program', ids: ['by-program'] },
+      { key: 'app',        ids: ['app'] },
+    ];
+
+    // Sidebar item elements keyed by chapter
+    const navItems = {};
+    document.querySelectorAll('.sidebar-nav__item[data-chapter]').forEach(el => {
+      navItems[el.dataset.chapter] = {
+        el,
+        bar: el.querySelector('.sidebar-nav__progress'),
+      };
+    });
+
+    // Content section elements keyed by id
+    const sections = {};
+    document.querySelectorAll('[data-section]').forEach(el => {
+      const k = el.dataset.section;
+      if (!sections[k]) sections[k] = [];
+      sections[k].push(el);
+    });
+
+    // Get merged top/bottom bounds for a chapter (union of all its sections)
+    function getBounds(ids) {
+      let top = Infinity, bottom = -Infinity;
+      ids.forEach(id => {
+        (sections[id] || []).forEach(el => {
+          const absTop = el.getBoundingClientRect().top + window.scrollY;
+          const absBot = absTop + el.offsetHeight;
+          if (absTop < top) top = absTop;
+          if (absBot > bottom) bottom = absBot;
+        });
+      });
+      return top === Infinity ? null : { top, bottom };
+    }
+
+    function setActive(key) {
+      Object.keys(navItems).forEach(k => {
+        navItems[k].el.classList.toggle('sidebar-nav__item--active', k === key);
+      });
+    }
+
+    function update() {
+      const scrollY = window.scrollY;
+      const winH   = window.innerHeight;
+      const line   = scrollY + winH * 0.35;
+
+      let active = null;
+
+      // Activate the last chapter whose top is above the trigger line
+      CHAPTERS.forEach(({ key, ids }) => {
+        const b = getBounds(ids);
+        if (b && b.top <= line) active = key;
+      });
+
+      if (active) setActive(active);
+
+      // Update progress bar — only on the active chapter
+      CHAPTERS.forEach(({ key, ids }) => {
+        const item = navItems[key];
+        if (!item || !item.bar) return;
+
+        if (key !== active) {
+          item.bar.style.width = '0%';
+          return;
+        }
+
+        const b = getBounds(ids);
+        if (!b) return;
+        const chapterH = b.bottom - b.top;
+        const advanced = Math.min(Math.max(line - b.top, 0), chapterH);
+        const pct = chapterH > 0 ? (advanced / chapterH) * 100 : 0;
+        item.bar.style.width = pct + '%';
+      });
+    }
+
+    // Smooth scroll on click
+    document.querySelectorAll('.sidebar-nav__link').forEach(link => {
+      link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  })();
+
+  /* ─────────────────────────────────────────────────
+     PROGRAM CAROUSEL DOTS (mobile only)
+  ───────────────────────────────────────────────── */
+  (function () {
+    const grid   = document.querySelector('.programs-grid');
+    const dotsEl = document.getElementById('program-dots');
+    if (!grid || !dotsEl) return;
+
+    const cards = Array.from(grid.querySelectorAll('.program-card'));
+    let dots = [];
+
+    function build () {
+      dotsEl.innerHTML = '';
+      dots = [];
+      if (window.innerWidth > 768) return;          // solo mobile
+      cards.forEach((_, i) => {
+        const d = document.createElement('span');
+        d.className = 'carousel-dots__dot' + (i === 0 ? ' carousel-dots__dot--active' : '');
+        dotsEl.appendChild(d);
+        dots.push(d);
+      });
+    }
+
+    function sync () {
+      if (!dots.length) return;
+      // índice basado en el centro del viewport del grid
+      const halfGrid = grid.clientWidth / 2;
+      let closest = 0, minDist = Infinity;
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.offsetLeft - grid.scrollLeft - halfGrid + card.offsetWidth / 2);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      dots.forEach((d, i) => d.classList.toggle('carousel-dots__dot--active', i === closest));
+    }
+
+    build();
+    grid.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', () => { build(); sync(); });
+  })();
+</script>
+<script>
+  function toggleLang() {
+    document.getElementById('langSelector').classList.toggle('header__lang--open');
+  }
+  function selectLang(el, code) {
+    document.getElementById('langCurrent').textContent = code;
+    document.querySelectorAll('.header__lang-option').forEach(o => o.classList.remove('header__lang-option--active'));
+    el.classList.add('header__lang-option--active');
+    document.getElementById('langSelector').classList.remove('header__lang--open');
+  }
+  document.addEventListener('click', function(e) {
+    const sel = document.getElementById('langSelector');
+    if (!sel.contains(e.target)) sel.classList.remove('header__lang--open');
+  });
+</script>
+</body>
+</html>
