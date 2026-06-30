@@ -3,6 +3,18 @@
     {
       "source": "/",
       "destination": "/SHA/Contexto/SHA_Boutique/Documentacion_Interna/03_Animaciones.html"
+    },
+    {
+      "source": "/catalogo",
+      "destination": "/SHA/wireframe-catalogo.html"
+    },
+    {
+      "source": "/programa",
+      "destination": "/SHA/wireframe-programa-detalle.html"
+    },
+    {
+      "source": "/tratamiento",
+      "destination": "/SHA/wireframe-tratamiento-detalle.html"
     }
   ]
 }
