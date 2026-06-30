@@ -1,0 +1,2817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHA Wellness — Microsite Wireframe</title>
+  <style>
+
+    /* ─────────────────────────────────────────
+       GRAPHIK (tipografía de prueba)
+    ──────────────────────────────────────── */
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Thin.woff2') format('woff2');     font-weight:100; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Light.woff2') format('woff2');    font-weight:300; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Regular.woff2') format('woff2');  font-weight:400; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Medium.woff2') format('woff2');   font-weight:500; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Semibold.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Bold.woff2') format('woff2');     font-weight:700; font-style:normal; font-display:swap; }
+    /* Graphik no incluye 800/900: se remapean al Bold disponible */
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Bold.woff2') format('woff2');     font-weight:800; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Graphik'; src:url('fonts/Graphik-Bold.woff2') format('woff2');     font-weight:900; font-style:normal; font-display:swap; }
+
+    /* ─────────────────────────────────────────
+       TOKENS
+    ──────────────────────────────────────── */
+    :root {
+      --black:      #0F0D0B;
+      --dark:       #1A1714;
+      --charcoal:   #2A2621;
+      --white:      #FFFFFF;
+      --off-white:  #F5F2EE;
+      --warm-50:    #FAF8F5;
+      --warm-100:   #F0EDE8;
+      --warm-200:   #DDD8D0;
+      --warm-300:   #C4BDB2;
+      --warm-400:   #9E9589;
+      --warm-500:   #7A7066;
+      --warm-600:   #5C5449;
+      --warm-700:   #3D3830;
+      --gold:       #B8956A;
+      --gold-light: rgba(184,149,106,.15);
+      --gold-border: rgba(184,149,106,.25);
+      --olive:      #1C2910;
+      --olive-mid:  #243315;
+      --olive-ring: rgba(220,230,200,.18);
+
+      --font: 'Graphik', 'Inter', -apple-system, sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --max-w: 1200px;
+      --header-h: 64px;
+      --cta-h: 86vh;
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--off-white);
+      color: var(--black);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; cursor: pointer; }
+    ul { list-style: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─────────────────────────────────────────
+       SCREENS SYSTEM
+    ──────────────────────────────────────── */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: block; }
+
+    /* ─────────────────────────────────────────
+       GLOBAL HEADER
+    ──────────────────────────────────────── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-h);
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .site-header.on-hero {
+      position: absolute;
+      top: 0;
+      left: 0; right: 0;
+      background: transparent;
+      border-bottom: none;
+    }
+    .header-logo {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      color: var(--white);
+    }
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .header-nav a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      transition: color .15s;
+    }
+    .header-nav a:hover,
+    .header-nav a.active { color: var(--white); }
+    .header-cta {
+      background: transparent;
+      color: rgba(255,255,255,.75);
+      padding: 9px 21px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 2px;
+      transition: border-color .2s, color .2s;
+    }
+    .header-cta:hover { border-color: rgba(255,255,255,.5); color: var(--white); }
+
+    /* Mobile header toggle */
+    .header-mobile-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .header-mobile-menu span {
+      display: block;
+      width: 20px;
+      height: 1.5px;
+      background: var(--white);
+      margin: 4px 0;
+    }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ──────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      color: var(--black);
+      padding: 15px 28px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background .2s;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--warm-100); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: rgba(255,255,255,.75);
+      padding: 14px 28px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 2px;
+      transition: border-color .2s, color .2s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,.5); color: var(--white); }
+
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--gold);
+      color: var(--white);
+      padding: 15px 32px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: opacity .2s;
+      cursor: pointer;
+    }
+    .btn-gold:hover { opacity: .9; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--black);
+      padding: 14px 28px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border: 1px solid var(--warm-300);
+      border-radius: 2px;
+      transition: border-color .2s;
+      cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--black); }
+
+    .btn-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--black);
+      border-bottom: 1.5px solid var(--black);
+      padding-bottom: 2px;
+      cursor: pointer;
+    }
+
+    /* ─────────────────────────────────────────
+       LAYOUT HELPERS
+    ──────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .section { padding: 80px 0; }
+    .section-sm { padding: 48px 0; }
+
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    /* ─────────────────────────────────────────
+       ══ SCREEN 1: HOME ══
+    ──────────────────────────────────────── */
+
+    /* Hero */
+    .home-hero {
+      position: relative;
+      min-height: 100vh;
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+    }
+    .home-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #2A2318 0%, #171310 45%, #0F0D0B 100%);
+    }
+    .home-hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.1) 0%, rgba(0,0,0,.55) 100%);
+    }
+    /* Placeholder image texture */
+    .home-hero-bg::after {
+      content: 'FOTOGRAFÍA EDITORIAL · AMBIENTE SHA';
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.08);
+      white-space: nowrap;
+    }
+    .home-hero-content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 32px 72px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      width: 100%;
+    }
+    .home-hero-title {
+      font-size: clamp(38px, 5.2vw, 64px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    .home-hero-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 40px;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+    .home-hero-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Programs preview section */
+    .home-programs {
+      background: var(--off-white);
+    }
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.2;
+      letter-spacing: -.01em;
+    }
+
+    /* Program cards grid */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .program-card {
+      background: var(--white);
+      border: 1px solid var(--warm-200);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow .2s;
+      cursor: pointer;
+    }
+    .program-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.10); }
+    .program-card-img {
+      aspect-ratio: 16/9;
+      background: linear-gradient(140deg, #2E2920 0%, #1C1710 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .program-card-img-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.15);
+    }
+    .program-card-body {
+      padding: 20px;
+    }
+    .program-card-name {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+    .program-card-goal {
+      font-size: 13px;
+      color: var(--warm-500);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .program-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--warm-100);
+    }
+    .program-card-meta {
+      font-size: 12px;
+      color: var(--warm-400);
+      line-height: 1.5;
+    }
+    .program-card-meta strong {
+      display: block;
+      color: var(--black);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* Method teaser */
+    .method-teaser {
+      background: var(--black);
+    }
+    .method-teaser-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+      min-height: 400px;
+    }
+    .method-teaser-content {
+      padding: 72px 56px 72px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .method-teaser-title {
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -.01em;
+      margin-bottom: 12px;
+    }
+    .method-teaser-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,.5);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 400px;
+    }
+    .method-teaser-img {
+      background: linear-gradient(140deg, #2A2318 0%, #1A1209 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .method-teaser-img::before {
+      content: 'IMAGEN EDITORIAL';
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.12);
+    }
+    .disciplines-mini {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .discipline-mini-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(255,255,255,.45);
+    }
+    .discipline-mini-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+
+    /* ─────────────────────────────────────────
+       ══ SCREEN 2: GRID PROGRAMAS ══
+    ──────────────────────────────────────── */
+    .page-hero-sm {
+      background: var(--black);
+      padding: 56px 32px 40px;
+    }
+    .page-hero-sm-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .page-hero-sm-title {
+      font-size: 30px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      margin-bottom: 8px;
+    }
+    .page-hero-sm-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,.45);
+      max-width: 480px;
+    }
+
+    .grid-programs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    /* Indeciso prompt */
+    .indeciso-box {
+      grid-column: 1 / -1;
+      background: var(--warm-50);
+      border: 1px solid var(--warm-200);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .indeciso-text h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .indeciso-text p {
+      font-size: 13px;
+      color: var(--warm-500);
+    }
+
+
+    /* ─────────────────────────────────────────
+       ══ SCREEN 3: DETALLE PROGRAMA ══
+    ──────────────────────────────────────── */
+    .program-detail-hero {
+      background: var(--black);
+      padding: 56px 0 48px;
+    }
+    .program-detail-hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: end;
+    }
+    .program-detail-name {
+      font-size: 40px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.06;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+    .program-detail-meta {
+      font-size: 14px;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 4px;
+    }
+    .program-detail-note {
+      font-size: 11px;
+      color: rgba(255,255,255,.25);
+      margin-bottom: 16px;
+    }
+    .program-detail-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,.55);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+    .program-detail-cta-panel {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .program-price-big {
+      font-size: 30px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .program-price-note {
+      font-size: 10px;
+      color: rgba(255,255,255,.3);
+      margin-bottom: 16px;
+    }
+
+    /* Treatment accordion */
+    .accordion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 40px;
+    }
+    .accordion-item {
+      border-bottom: 1px solid var(--warm-200);
+    }
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      cursor: pointer;
+      gap: 12px;
+    }
+    .accordion-header-left { flex: 1; }
+    .accordion-discipline-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 2px;
+    }
+    .accordion-count {
+      font-size: 11px;
+      color: var(--warm-400);
+    }
+    .accordion-toggle {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--warm-200);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--warm-400);
+      flex-shrink: 0;
+      font-weight: 300;
+      transition: background .15s, color .15s;
+    }
+    .accordion-item.open .accordion-toggle {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+    .accordion-body {
+      display: none;
+      padding-bottom: 16px;
+    }
+    .accordion-item.open .accordion-body { display: block; }
+    .treatment-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 7px 0;
+    }
+    .treatment-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--warm-300);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .treatment-name {
+      font-size: 13px;
+      color: var(--warm-600);
+      line-height: 1.45;
+    }
+
+    /* Related programs scroll */
+    .hscroll-wrapper {
+      overflow-x: auto;
+      margin: 0 -32px;
+      padding: 0 32px 4px;
+      display: flex;
+      gap: 16px;
+      scrollbar-width: none;
+    }
+    .hscroll-wrapper::-webkit-scrollbar { display: none; }
+    .hscroll-card {
+      flex-shrink: 0;
+      width: 260px;
+      background: var(--white);
+      border: 1px solid var(--warm-200);
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow .2s;
+    }
+    .hscroll-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .hscroll-card-img {
+      height: 140px;
+      background: linear-gradient(140deg, #2E2920 0%, #1C1710 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hscroll-card-body { padding: 14px 16px; }
+    .hscroll-card-name {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 2px;
+    }
+    .hscroll-card-detail { font-size: 11px; color: var(--warm-400); }
+
+
+    /* ─────────────────────────────────────────
+       ══ SCREEN 4: MÉTODO ══
+    ──────────────────────────────────────── */
+    .method-page {
+      background: var(--olive);
+    }
+    .method-header-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-h);
+      background: rgba(28,41,16,.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid rgba(220,230,200,.06);
+    }
+    .method-intro-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 64px 32px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+    }
+    .method-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(220,230,200,.35);
+      margin-bottom: 10px;
+    }
+    .method-title {
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -.02em;
+    }
+    .method-desc {
+      font-size: 14px;
+      color: rgba(220,230,200,.5);
+      line-height: 1.75;
+      max-width: 400px;
+      align-self: end;
+    }
+
+    /* Diagram container */
+    .method-diagram-outer {
+      position: relative;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+    .method-diagram-svg { width: 100%; height: auto; display: block; }
+
+    /* List fallback on mobile */
+    .method-list-mobile {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      padding: 24px 20px 56px;
+    }
+    .method-list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(220,230,200,.08);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .method-list-item:hover { background: rgba(255,255,255,.06); }
+    .method-list-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(220,230,200,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+      color: rgba(220,230,200,.6);
+    }
+    .method-list-icon svg { width: 18px; height: 18px; }
+    .method-list-name {
+      font-size: 13px; font-weight: 600;
+      color: rgba(220,230,200,.7); flex: 1; line-height: 1.3;
+    }
+
+    @media (max-width: 860px) {
+      .method-intro-wrap { grid-template-columns: 1fr; gap: 16px; padding: 40px 20px 0; }
+      .method-diagram-outer { display: none; }
+      .method-list-mobile { display: flex; }
+    }
+
+
+    /* ─────────────────────────────────────────
+       ══ SCREEN 5: DISCIPLINA ══
+    ──────────────────────────────────────── */
+    .discipline-hero {
+      background: var(--black);
+      padding: 56px 0 48px;
+    }
+    .discipline-hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .discipline-hero-title {
+      font-size: 38px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    .discipline-hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,.5);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* Treatments list */
+    .treatments-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 48px;
+    }
+    .treatment-list-item {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--warm-100);
+    }
+    .treatment-list-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+    .treatment-list-desc {
+      font-size: 12px;
+      color: var(--warm-400);
+      line-height: 1.5;
+    }
+
+    /* Mini program cards */
+    .mini-programs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .mini-program-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--white);
+      border: 1px solid var(--warm-200);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: box-shadow .2s;
+    }
+    .mini-program-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .mini-program-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 4px;
+      background: linear-gradient(140deg, #2E2920 0%, #1C1710 100%);
+      flex-shrink: 0;
+    }
+    .mini-program-name {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 2px;
+    }
+    .mini-program-detail {
+      font-size: 11px;
+      color: var(--warm-400);
+    }
+    .mini-program-arrow {
+      margin-left: auto;
+      font-size: 14px;
+      color: var(--warm-300);
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION SEPARATOR
+    ──────────────────────────────────────── */
+    .sep {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 48px 0 32px;
+    }
+    .sep-line { flex: 1; height: 1px; background: var(--warm-200); }
+    .sep-text {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--warm-300);
+      white-space: nowrap;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ──────────────────────────────────────── */
+    .site-footer {
+      background: var(--black);
+      padding: 40px 0;
+      margin-top: 80px;
+    }
+    .site-footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      color: rgba(255,255,255,.4);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 11px;
+      color: rgba(255,255,255,.25);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────
+       BREADCRUMB
+    ──────────────────────────────────────── */
+    .breadcrumb {
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .breadcrumb-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+    }
+    .breadcrumb-item {
+      font-size: 11px;
+      color: rgba(255,255,255,.45);
+      font-weight: 500;
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .breadcrumb-item:hover { color: var(--white); }
+    .breadcrumb-sep {
+      font-size: 11px;
+      color: rgba(255,255,255,.25);
+    }
+    .breadcrumb-current {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .header-nav { display: none; }
+      .header-mobile-menu { display: block; }
+      .home-hero-content { padding: 48px 20px 48px; }
+      .home-hero-title { font-size: 36px; }
+      .home-split { grid-template-columns: 1fr !important; }
+      .home-split > div { padding: 32px 20px 40px !important; }
+      .container { padding: 0 20px; }
+      .programs-grid { grid-template-columns: 1fr 1fr; }
+      .grid-programs { grid-template-columns: 1fr 1fr; }
+      .method-teaser-inner { grid-template-columns: 1fr; }
+      .method-teaser-img { height: 200px; }
+      .method-teaser-content { padding: 40px 20px; }
+      .disciplines-grid { grid-template-columns: repeat(2, 1fr); }
+      .accordion-grid { grid-template-columns: 1fr; gap: 0; }
+      .program-detail-hero-inner { grid-template-columns: 1fr; gap: 24px; }
+      .program-detail-cta-panel { text-align: left; }
+      .mini-programs-grid { grid-template-columns: 1fr 1fr; }
+      .treatments-list { grid-template-columns: 1fr; }
+      .page-hero-sm { padding: 40px 20px 28px; }
+      .section { padding: 48px 0; }
+      .method-hero-content { padding: 32px 20px 40px; }
+      .discipline-hero-inner { padding: 0 20px; }
+    }
+    @media (max-width: 600px) {
+      .programs-grid { grid-template-columns: 1fr; }
+      .grid-programs { grid-template-columns: 1fr; }
+      .disciplines-grid { grid-template-columns: repeat(2, 1fr); }
+      .home-hero-ctas { flex-direction: column; }
+      .home-hero-ctas .btn-primary,
+      .home-hero-ctas .btn-secondary { width: 100%; justify-content: space-between; }
+      .mini-programs-grid { grid-template-columns: 1fr; }
+      .indeciso-box { flex-direction: column; }
+      .program-detail-name { font-size: 34px; }
+      .discipline-hero-title { font-size: 32px; }
+      .site-header { padding: 0 20px; }
+      .hscroll-wrapper { margin: 0 -20px; padding: 0 20px 4px; }
+      .method-teaser-content { padding: 32px 20px; }
+      .disciplines-mini { grid-template-columns: 1fr; }
+    }
+
+    /* ─────────────────────────────────────────
+       HERO CENTERED (catálogo)
+    ──────────────────────────────────────── */
+    .home-hero-content.center {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 32px 96px;
+    }
+    .home-hero-content.center .home-hero-title { max-width: 760px; margin-left: auto; margin-right: auto; }
+    .home-hero-content.center .home-hero-sub { max-width: 540px; margin-left: auto; margin-right: auto; }
+    .home-hero-content.center .home-hero-ctas { justify-content: center; }
+
+    /* ─────────────────────────────────────────
+       EXPLORE TABS (home)
+    ──────────────────────────────────────── */
+    .explore-tabs-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: var(--off-white);
+      border-bottom: 1px solid var(--warm-200);
+    }
+    .explore-tabs {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+    }
+    .explore-tab {
+      flex: 1;
+      text-align: center;
+      padding: 20px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--warm-400);
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    .explore-tab:hover { color: var(--warm-600); }
+    .explore-tab.active { color: var(--warm-700); border-bottom-color: var(--warm-700); }
+    .explore-tab .explore-tab-count { color: var(--warm-300); font-weight: 500; }
+
+    /* Ambos paneles visibles, apilados (programas → métodos) */
+    .explore-panel { display: block; scroll-margin-top: 64px; }
+    .explore-panel + .explore-panel { margin-top: 96px; }
+
+    /* Cabecera editorial de cada sección */
+    .explore-panel .eyebrow { margin-bottom: 14px; }
+    .explore-panel .section-title { font-size: 30px; font-weight: 300; letter-spacing: -.02em; line-height: 1.12; }
+    .explore-panel-intro {
+      font-size: 15px;
+      color: var(--warm-500);
+      margin-bottom: 56px;
+      max-width: 460px;
+      line-height: 1.65;
+    }
+
+    /* Grid editorial — 2 columnas, mucho aire */
+    .explore-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 48px;
+      row-gap: 64px;
+    }
+
+    /* Tarjeta de programa — editorial, sin caja */
+    .explore-grid .program-card {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+    }
+    .explore-grid .program-card:hover { box-shadow: none; }
+    .explore-grid .program-card-img {
+      aspect-ratio: 3/2;
+      border-radius: 4px;
+      margin-bottom: 22px;
+      transition: opacity .3s var(--ease);
+    }
+    .explore-grid .program-card:hover .program-card-img { opacity: .88; }
+    .explore-grid .program-card-body { padding: 0; }
+    .explore-grid .program-card-name {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .explore-grid .program-card-goal {
+      font-size: 14px;
+      color: var(--warm-500);
+      margin-bottom: 22px;
+      max-width: 90%;
+    }
+    .explore-grid .program-card-footer {
+      padding-top: 18px;
+      border-top: 1px solid var(--warm-200);
+    }
+
+    /* Discipline card — editorial */
+    .discipline-card {
+      background: transparent;
+      border: none;
+      border-top: 1px solid var(--warm-300);
+      border-radius: 0;
+      padding: 26px 0 8px;
+      cursor: pointer;
+      transition: border-color .25s var(--ease);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 150px;
+    }
+    .discipline-card:hover { box-shadow: none; border-top-color: var(--gold); }
+    .discipline-card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .discipline-card-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+    }
+    .discipline-card-icon svg { width: 21px; height: 21px; }
+    .discipline-card-num {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      color: var(--gold);
+    }
+    .discipline-card-name {
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.25;
+    }
+    .discipline-card-desc {
+      font-size: 14px;
+      color: var(--warm-500);
+      line-height: 1.55;
+      margin-top: auto;
+    }
+
+    /* Load more (mobile only) */
+    .load-more-wrap { display: none; margin-top: 24px; text-align: center; }
+    .load-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--black);
+      padding: 13px 28px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      border: 1px solid var(--warm-300);
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    /* ─────────────────────────────────────────
+       DISCIPLINE — sticky programs + tx accordion
+    ──────────────────────────────────────── */
+    .disc-cols {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 0 80px;
+      align-items: start;
+    }
+    .disc-programs-col {
+      position: sticky;
+      top: calc(var(--header-h) + 16px);
+    }
+
+    /* Treatment accordion */
+    .tx-item { border-bottom: 1px solid var(--warm-100); }
+    .tx-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 0;
+      cursor: pointer;
+    }
+    .tx-name { font-size: 14px; font-weight: 600; color: var(--black); line-height: 1.4; }
+    .tx-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .tx-price { font-size: 13px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+    .tx-toggle {
+      width: 24px; height: 24px;
+      border: 1px solid var(--warm-200);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--warm-400); font-weight: 300;
+      transition: background .15s, color .15s;
+    }
+    .tx-item.open .tx-toggle { background: var(--black); color: var(--white); border-color: var(--black); }
+    .tx-body { display: none; padding: 0 0 18px; }
+    .tx-item.open .tx-body { display: block; }
+    .tx-desc { font-size: 13px; color: var(--warm-500); line-height: 1.65; max-width: 540px; }
+
+    /* Mobile fixed bar (disciplina) */
+    .disc-mobile-bar { display: none; }
+
+    @media (max-width: 900px) {
+      .explore-grid { grid-template-columns: 1fr 1fr; column-gap: 28px; row-gap: 44px; }
+      .explore-panel + .explore-panel { margin-top: 64px; }
+      .explore-panel .section-title { font-size: 30px; }
+      .explore-panel-intro { margin-bottom: 36px; }
+      .disc-cols { grid-template-columns: 1fr; gap: 48px 0; }
+      .disc-programs-col { position: static; }
+      /* hide cards beyond 4 until expanded */
+      .explore-panel:not(.expanded) .explore-card.beyond { display: none; }
+      .explore-panel .load-more-wrap { display: block; }
+      .explore-panel.expanded .load-more-wrap { display: none; }
+      /* mobile fixed bottom bar on disciplina */
+      .disc-mobile-bar {
+        display: flex;
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        z-index: 200;
+        background: var(--black);
+        padding: 12px 20px;
+        gap: 12px;
+        align-items: center;
+        box-shadow: 0 -4px 24px rgba(0,0,0,.25);
+      }
+      .disc-mobile-bar .btn-gold { flex: 1; padding: 14px 20px; }
+      #s-disciplina .section { padding-bottom: 96px; }
+    }
+    @media (max-width: 600px) {
+      .explore-grid { grid-template-columns: 1fr; }
+      .explore-tab { padding: 18px 10px; font-size: 11px; letter-spacing: .08em; }
+    }
+
+    /* ─────────────────────────────────────────
+       TRATAMIENTOS — layout 2 columnas
+       Izquierda: nav de métodos · Derecha: acordeón de tratamientos
+    ──────────────────────────────────────── */
+    .tx-split {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0 72px;
+      align-items: start;
+    }
+    .tx-split-left {
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+    }
+    .tx-method-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 0 16px 0;
+      border-bottom: 1px solid var(--warm-100);
+      cursor: pointer;
+      transition: padding-left .15s;
+    }
+    .tx-method-item:first-child { border-top: 1px solid var(--warm-100); }
+    .tx-method-name {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--warm-500);
+      line-height: 1.35;
+      transition: color .15s;
+    }
+    .tx-method-count {
+      display: block;
+      font-size: 11px;
+      color: var(--warm-400);
+      margin-top: 3px;
+    }
+    .tx-method-arrow {
+      font-size: 13px;
+      color: var(--warm-300);
+      flex-shrink: 0;
+      transition: color .15s, transform .15s;
+    }
+    .tx-method-item.active .tx-method-name { color: var(--black); font-weight: 600; }
+    .tx-method-item.active .tx-method-arrow { color: var(--gold); }
+    .tx-method-item.active {
+      border-left: 2px solid var(--gold);
+      padding-left: 12px;
+      margin-left: -2px;
+    }
+    /* Imagen hero del método en la columna derecha */
+    .tx-split-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--warm-200);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .tx-split-img-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--warm-400);
+    }
+    .tx-split-detail-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .tx-split-detail-title {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 28px;
+      line-height: 1.25;
+    }
+    @media (max-width: 900px) {
+      .tx-split { grid-template-columns: 1fr; gap: 0; }
+      .tx-split-left {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        gap: 0;
+        margin: 0 -20px 32px;
+        padding: 0 20px;
+        border-top: 1px solid var(--warm-100);
+        border-bottom: 1px solid var(--warm-100);
+      }
+      .tx-split-left::-webkit-scrollbar { display: none; }
+      .tx-method-item {
+        flex-direction: column;
+        align-items: flex-start;
+        flex-shrink: 0;
+        border-bottom: none;
+        border-right: 1px solid var(--warm-100);
+        padding: 14px 16px;
+        min-width: 140px;
+      }
+      .tx-method-item:first-child { border-top: none; padding-left: 0; }
+      .tx-method-item.active {
+        border-left: none;
+        padding-left: 0;
+        border-bottom: 2px solid var(--gold);
+        margin-left: 0;
+      }
+      .tx-method-arrow { display: none; }
+    }
+
+    /* ─────────────────────────────────────────
+       HOME: PARALLAX REVEAL FOOTER
+       El CTA footer está detrás (z-index 0, sticky bottom).
+       El scroll body lo cubre (z-index 1) y se "despega" al scrollear.
+    ──────────────────────────────────────── */
+    #s-home { position: relative; }
+
+    .home-cta-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 0;
+      height: var(--cta-h);
+      background: var(--olive);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .home-cta-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 0 80px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+    .home-cta-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(220,230,200,.5);
+      margin-bottom: 20px;
+    }
+    .home-cta-title {
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 300;
+      color: rgba(220,230,200,.95);
+      line-height: 1.1;
+      letter-spacing: -.01em;
+      margin-bottom: 24px;
+    }
+    .home-cta-sub {
+      font-size: 14px;
+      color: rgba(220,230,200,.55);
+      line-height: 1.7;
+      max-width: 400px;
+      margin-bottom: 36px;
+    }
+    .home-cta-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .home-cta-email-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(220,230,200,.65);
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .home-cta-email-link:hover { color: rgba(220,230,200,.95); }
+    .home-cta-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: rgba(220,230,200,.35);
+      flex-wrap: wrap;
+    }
+    .home-cta-contact-row span { white-space: nowrap; }
+    .home-cta-contact-sep { color: rgba(220,230,200,.2); }
+
+    /* Imagen editorial derecha */
+    .home-cta-img-col {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .home-cta-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      max-height: 65vh;
+      background: rgba(220,230,200,.08);
+      border: 1px solid rgba(220,230,200,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .home-cta-img span {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(220,230,200,.2);
+    }
+
+    /* Barra inferior del CTA footer (reemplaza al site-footer en home) */
+    .home-cta-bar {
+      border-top: 1px solid rgba(220,230,200,.1);
+      padding: 16px 40px;
+      max-width: 100%;
+    }
+    .home-cta-bar-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .home-cta-bar .footer-logo {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      color: rgba(220,230,200,.4);
+    }
+    .home-cta-bar .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .home-cta-bar .footer-links a {
+      font-size: 11px;
+      color: rgba(220,230,200,.3);
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .home-cta-bar .footer-links a:hover { color: rgba(220,230,200,.6); }
+
+    /* Scroll body: encima del CTA, se despega al scrollear */
+    .home-scroll-body {
+      position: relative;
+      z-index: 1;
+      background: var(--off-white);
+      margin-top: calc(-1 * var(--cta-h));
+    }
+
+    @media (max-width: 900px) {
+      .home-cta-footer { height: auto; min-height: 100vh; position: relative; }
+      .home-scroll-body { margin-top: 0; }
+      .home-cta-layout {
+        grid-template-columns: 1fr;
+        padding: 48px 20px 32px;
+        gap: 40px 0;
+      }
+      .home-cta-img { aspect-ratio: 16 / 9; max-height: 280px; }
+    }
+
+    /* ─────────────────────────────────────────
+       DISCIPLINAS RELACIONADAS — tarjetas en hscroll
+    ──────────────────────────────────────── */
+    .disc-related-card {
+      flex-shrink: 0;
+      width: 200px;
+      background: var(--white);
+      border: 1px solid var(--warm-100);
+      border-radius: 2px;
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .disc-related-card:hover {
+      border-color: var(--gold-border);
+      box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    }
+    .disc-related-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      color: var(--warm-300);
+      margin-bottom: 4px;
+    }
+    .disc-related-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.35;
+    }
+    .disc-related-desc {
+      font-size: 12px;
+      color: var(--warm-400);
+      line-height: 1.45;
+      flex: 1;
+    }
+    .disc-related-arrow {
+      font-size: 14px;
+      color: var(--gold);
+      margin-top: 8px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Sprite de iconos de las 10 disciplinas del Método Integrativo -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <symbol id="icon-diagnostico" viewBox="0 0 45 45">
+        <path d="M32.0682 33.4014C37.3228 28.1461 37.3228 19.5967 32.0682 14.3415C26.8129 9.08627 18.2629 9.08627 13.0077 14.3415C7.75306 19.5967 7.75306 28.1461 13.0077 33.4014" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M18.1767 23.6777H21.7294V20.125C21.7292 18.6722 20.5465 17.4895 19.0937 17.4893H18.1767C16.7238 17.4894 15.5412 18.6721 15.541 20.125V21.042C15.5411 22.495 16.7237 23.6776 18.1767 23.6777Z" stroke="currentColor"/>
+        <path d="M20.0058 30.5439H20.5263C21.1878 30.5439 21.7255 30.0053 21.7255 29.3447V25.9385H20.0058C19.3451 25.9386 18.8066 26.477 18.8066 27.1377V29.3447C18.8066 30.0052 19.3449 30.5438 20.0058 30.5439Z" stroke="currentColor"/>
+        <path d="M25.6669 20.4766C26.3276 20.4766 26.867 19.938 26.8671 19.2773V17.0693C26.8671 16.4081 26.3278 15.8701 25.6669 15.8701H25.1464C24.4856 15.8702 23.9472 16.4081 23.9472 17.0693V20.4766H25.6669Z" stroke="currentColor"/>
+        <path d="M26.4215 28.9863H27.3385C28.7914 28.9861 29.9742 27.8028 29.9742 26.3496V25.4336C29.9742 23.9806 28.7915 22.7981 27.3385 22.7979H23.7858V26.3496C23.7858 27.8028 24.9686 28.9862 26.4215 28.9863Z" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-longevidad" viewBox="0 0 45 45">
+        <path d="M21.0983 33.0576C21.9162 33.5303 22.9222 33.5612 23.7653 33.1475L23.9313 33.0586L26.7955 31.4043C27.6685 30.9006 28.2115 29.9593 28.2115 28.9512V25.6436C28.2115 24.6985 27.7346 23.8122 26.9557 23.29L26.7955 23.1904C25.4764 22.4282 23.9957 22.047 22.5153 22.0469C21.0335 22.0469 19.553 22.4281 18.233 23.1904C17.3606 23.6942 16.817 24.6356 16.817 25.6436V28.9512L16.8229 29.1396C16.8858 30.0753 17.4152 30.932 18.233 31.4043L21.0973 33.0576H21.0983Z" stroke="currentColor"/>
+        <path d="M18.233 21.8135C20.8728 23.3382 24.1544 23.3383 26.7955 21.8135C27.6681 21.3097 28.2115 20.3684 28.2115 19.3604V16.0527C28.2114 15.1074 27.734 14.2214 26.9557 13.6992L26.7955 13.5996L23.9313 11.9463C23.4946 11.6941 23.0049 11.5674 22.5143 11.5674C22.0242 11.5674 21.5341 11.6943 21.0983 11.9463H21.0973L18.233 13.5996C17.3604 14.1033 16.8171 15.0441 16.817 16.0527V19.3604L16.8229 19.5488C16.8817 20.4224 17.3467 21.2266 18.0739 21.7139L18.233 21.8135Z" stroke="currentColor"/>
+        <path d="M16.053 28.334H19.3597C20.3676 28.334 21.309 27.7904 21.8128 26.918C23.2894 24.3599 23.3358 21.1995 21.9515 18.6045L21.8128 18.3555C21.3091 17.4825 20.3679 16.9395 19.3597 16.9395H16.053C15.0442 16.9395 14.1026 17.4825 13.5989 18.3555L11.9456 21.2197C11.4409 22.0927 11.4402 23.1799 11.9446 24.0537L13.5989 26.918C14.0713 27.7359 14.9282 28.2653 15.8646 28.3281L16.053 28.334Z" stroke="currentColor"/>
+        <path d="M25.6569 28.334H28.9645C29.9729 28.3339 30.9139 27.7902 31.4176 26.918L33.0709 24.0537C33.5753 23.1798 33.5752 22.0928 33.0709 21.2197L31.4176 18.3555C30.914 17.4826 29.9732 16.9396 28.9645 16.9395H25.6569C24.7118 16.9395 23.8255 17.4164 23.3033 18.1953L23.2037 18.3555C21.7267 20.9127 21.6804 24.0724 23.0651 26.668L23.2037 26.918C23.676 27.7358 24.5328 28.2651 25.4684 28.3281L25.6569 28.334Z" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-nutricion" viewBox="0 0 45 45">
+        <path d="M25.4285 16.5732V12.9964C25.4285 12.5863 25.2537 12.1941 24.9492 11.9213L23.6634 10.7664C23.1189 10.2783 22.2982 10.2783 21.7537 10.7664L20.4679 11.9207C20.1627 12.1947 19.9886 12.5863 19.9886 12.9964V21.582" stroke="currentColor"/>
+        <path d="M19.9886 26.8929V30.4703C19.9886 30.8804 20.1627 31.272 20.4679 31.5448L21.7537 32.7003C22.2982 33.1884 23.1189 33.1884 23.6634 32.7003L24.9492 31.5454C25.2537 31.2726 25.4278 30.8804 25.4278 30.4703V21.8847" stroke="currentColor"/>
+        <path d="M25.6038 27.0095L28.6843 28.7979C28.9617 28.9587 29.2749 29.041 29.5893 29.041C29.78 29.041 29.9707 29.0113 30.1553 28.9501L31.7924 28.4076C32.6673 28.1181 33.1847 27.2161 32.997 26.3093L32.6457 24.6124C32.5411 24.1058 32.2255 23.6666 31.7795 23.4074L24.3844 19.1149" stroke="currentColor"/>
+        <path d="M28.5173 21.5215L31.5984 19.7331C31.9515 19.5277 32.2019 19.1801 32.2843 18.7786L32.6356 17.0818C32.7845 16.363 32.3742 15.6485 31.6814 15.4184L30.0437 14.8758C29.6561 14.7472 29.2316 14.7905 28.8778 14.9971L21.4833 19.2896" stroke="currentColor"/>
+        <path d="M16.9036 21.9463L13.8225 23.7347C13.4693 23.9395 13.2189 24.2877 13.1359 24.6892L12.7846 26.386C12.6357 27.1049 13.0467 27.82 13.7394 28.0495L15.3766 28.5914C15.7635 28.72 16.1881 28.6767 16.5424 28.4707L23.9375 24.1776" stroke="currentColor"/>
+        <path d="M19.2687 16.8286L16.1882 15.0402C15.8345 14.8342 15.41 14.7909 15.0224 14.9196L13.3852 15.4621C12.6925 15.6916 12.2815 16.4067 12.4304 17.1249L12.7817 18.8217C12.8648 19.2232 13.1152 19.5715 13.4689 19.7762L20.8634 24.0693" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-rendimiento" viewBox="0 0 45 45">
+        <path d="M20.2555 14.4002C20.2555 15.7521 21.355 16.8516 22.7068 16.8516C24.0586 16.8516 25.1581 15.7521 25.1581 14.4002" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M16.9274 14.4005C16.9274 17.5825 19.5164 20.1709 22.6978 20.1709C25.8792 20.1709 28.4682 17.5825 28.4682 14.4005" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M13.068 14.4017C13.068 19.7124 17.3882 24.0332 22.6995 24.0332C28.0108 24.0332 32.3309 19.7124 32.3309 14.4017" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M20.2542 31.9473C20.2542 30.5961 21.3543 29.4959 22.7055 29.4959C24.0573 29.4959 25.1575 30.5961 25.1575 31.9473" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M16.9313 31.9473C16.9313 28.7658 19.5196 26.1775 22.7011 26.1775C25.8825 26.1775 28.4715 28.7658 28.4715 31.9473" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M13.0667 31.9473C13.0667 26.6366 17.3875 22.3158 22.6982 22.3158C28.0095 22.3158 32.3303 26.6366 32.3303 31.9473" stroke="currentColor" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="icon-sueno" viewBox="0 0 45 45">
+        <path d="M16.3167 32.2764C16.7264 32.2762 17.053 32.0304 17.1673 31.6367L18.4573 27.1934C19.2688 24.3983 19.2688 21.4445 18.4573 18.6494L17.1673 14.2061C17.053 13.8126 16.7263 13.5675 16.3167 13.5674C15.9069 13.5674 15.5795 13.8124 15.4651 14.2061L14.1761 18.6494C13.3641 21.4445 13.3641 24.3983 14.1761 27.1934L15.4651 31.6367C15.5794 32.0305 15.9069 32.2764 16.3167 32.2764Z" stroke="currentColor"/>
+        <path d="M20.4833 32.2764C20.893 32.2762 21.2197 32.0304 21.3339 31.6367L22.624 27.1934C23.4354 24.3983 23.4354 21.4445 22.624 18.6494L21.3339 14.2061C21.2196 13.8126 20.8929 13.5675 20.4833 13.5674C20.0736 13.5674 19.7461 13.8124 19.6318 14.2061L18.3427 18.6494C17.5307 21.4445 17.5307 24.3983 18.3427 27.1934L19.6318 31.6367C19.7461 32.0305 20.0735 32.2764 20.4833 32.2764Z" stroke="currentColor"/>
+        <path d="M24.6552 32.2764C25.065 32.2763 25.3915 32.0304 25.5058 31.6367L26.7958 27.1934C27.6078 24.3983 27.6079 21.4444 26.7958 18.6494L25.5058 14.2061C25.3914 13.8126 25.0649 13.5674 24.6552 13.5674C24.2454 13.5674 23.918 13.8124 23.8036 14.2061L22.5136 18.6494C21.7022 21.4444 21.7022 24.3983 22.5136 27.1934L23.8036 31.6367C23.9179 32.0305 24.2454 32.2764 24.6552 32.2764Z" stroke="currentColor"/>
+        <path d="M28.8219 32.2764C29.2316 32.2762 29.5582 32.0304 29.6725 31.6367L30.9625 27.1934C31.774 24.3983 31.774 21.4445 30.9625 18.6494L29.6725 14.2061C29.5582 13.8126 29.2315 13.5675 28.8219 13.5674C28.4121 13.5674 28.0847 13.8124 27.9703 14.2061L26.6813 18.6494C25.8692 21.4445 25.8692 24.3983 26.6813 27.1934L27.9703 31.6367C28.0846 32.0305 28.4121 32.2764 28.8219 32.2764Z" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-regenerativa" viewBox="0 0 45 45">
+        <path d="M13.6754 21.4307C17.9512 21.4306 21.4303 17.9512 21.4303 13.6748C21.4301 13.2479 21.0828 12.9006 20.6559 12.9004H13.6754C13.2484 12.9004 12.9002 13.2478 12.9 13.6748V20.6562C12.9001 21.0826 13.2481 21.4307 13.6754 21.4307Z" stroke="currentColor"/>
+        <path d="M30.6142 21.4316C31.0413 21.4314 31.3885 21.0834 31.3886 20.6572V13.6758C31.3884 13.2489 31.0411 12.9016 30.6142 12.9014H23.6337C23.2067 12.9014 22.8585 13.2488 22.8583 13.6758C22.8583 17.9522 26.3383 21.4316 30.6142 21.4316Z" stroke="currentColor"/>
+        <path d="M23.6337 31.3877H30.6142C31.0412 31.3875 31.3886 31.0394 31.3886 30.6123V23.6318C31.3884 23.2049 31.0411 22.8576 30.6142 22.8574C26.3384 22.8574 22.8584 26.3365 22.8583 30.6123C22.8583 31.0395 23.2065 31.3877 23.6337 31.3877Z" stroke="currentColor"/>
+        <path d="M13.6754 31.3877H20.6559C21.0829 31.3875 21.4303 31.0394 21.4303 30.6123C21.4302 26.3366 17.9511 22.8575 13.6754 22.8574C13.2484 22.8574 12.9002 23.2048 12.9 23.6318V30.6123C12.9 31.0395 13.2482 31.3877 13.6754 31.3877Z" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-cerebral" viewBox="0 0 45 45">
+        <path d="M12.4241 32.8379C12.9625 33.1937 13.6355 33.2552 14.2288 33.0029L20.3206 30.4092C23.4689 29.068 25.42 26.1171 25.4202 22.6953C25.4202 19.2727 23.469 16.3211 20.3206 14.9805L14.2288 12.3867C13.9874 12.2835 13.7327 12.2334 13.4788 12.2334C13.1103 12.2334 12.7436 12.3408 12.4241 12.5518C11.8871 12.907 11.5667 13.5028 11.5667 14.1475V31.2422C11.5667 31.8869 11.8874 32.4833 12.4241 32.8379Z" stroke="currentColor"/>
+        <path d="M30.5446 33.0029C31.138 33.2554 31.8116 33.1935 32.3492 32.8379H32.3502C32.887 32.4833 33.2067 31.8869 33.2067 31.2422V14.1475C33.2067 13.503 32.887 12.907 32.3502 12.5518C32.0307 12.3407 31.6632 12.2334 31.2946 12.2334C31.041 12.2335 30.7868 12.2837 30.5455 12.3867H30.5446L24.4528 14.9805C21.3045 16.3212 19.3531 19.2728 19.3531 22.6953C19.3533 26.1171 21.3044 29.069 24.4528 30.4102L30.5446 33.0029Z" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-estetica" viewBox="0 0 45 45">
+        <path d="M11.6786 18.7217H33.0976" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M11.6777 25.7217H33.0967" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M11.4674 16.5381L12.2068 15.4218C12.6859 14.6991 13.4889 14.2674 14.356 14.2674C15.2225 14.2674 16.0261 14.6991 16.5052 15.4218L17.0335 16.2191L17.5611 15.4218C18.0402 14.6991 18.8431 14.2674 19.7097 14.2674C20.5768 14.2674 21.3804 14.6991 21.8595 15.4218L22.3877 16.2191L22.916 15.4211C23.3951 14.6991 24.198 14.2674 25.0652 14.2674C25.9317 14.2674 26.7353 14.6991 27.2144 15.4211L27.7426 16.2191L28.2709 15.4211C28.75 14.6991 29.5529 14.2668 30.4195 14.2668C31.286 14.2668 32.0902 14.6985 32.5693 15.4211L33.3087 16.5381" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M11.4667 23.5381L12.2062 22.4218C12.6852 21.6991 13.4882 21.2674 14.3554 21.2674C15.2219 21.2674 16.0255 21.6991 16.5046 22.4218L17.0328 23.2191L17.5605 22.4218C18.0395 21.6991 18.8425 21.2674 19.709 21.2674C20.5762 21.2674 21.3798 21.6991 21.8588 22.4218L22.3871 23.2191L22.9154 22.4211C23.3944 21.6991 24.1974 21.2674 25.0646 21.2674C25.9311 21.2674 26.7347 21.6991 27.2137 22.4211L27.742 23.2191L28.2703 22.4211C28.7493 21.6991 29.5523 21.2668 30.4188 21.2668C31.2854 21.2668 32.0896 21.6985 32.5686 22.4211L33.3081 23.5381" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M11.4667 30.5381L12.2062 29.4218C12.6852 28.6991 13.4882 28.2674 14.3554 28.2674C15.2219 28.2674 16.0255 28.6991 16.5046 29.4218L17.0328 30.2191L17.5605 29.4218C18.0395 28.6991 18.8425 28.2674 19.709 28.2674C20.5762 28.2674 21.3798 28.6991 21.8588 29.4218L22.3871 30.2191L22.9154 29.4211C23.3944 28.6991 24.1974 28.2674 25.0646 28.2674C25.9311 28.2674 26.7347 28.6991 27.2137 29.4211L27.742 30.2191L28.2703 29.4211C28.7493 28.6991 29.5523 28.2668 30.4188 28.2668C31.2854 28.2668 32.0896 28.6985 32.5686 29.4211L33.3081 30.5381" stroke="currentColor" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="icon-holistica" viewBox="0 0 45 45">
+        <path d="M22.4915 27.9951C25.5251 27.995 27.9944 25.5257 27.9944 22.4922C27.9944 19.4587 25.525 16.9893 22.4915 16.9893C19.458 16.9893 16.9887 19.4587 16.9886 22.4922C16.9886 25.5258 19.4579 27.9951 22.4915 27.9951Z" stroke="currentColor"/>
+        <path d="M14.4453 16.3867C16.5957 18.5371 19.4544 19.7207 22.4944 19.7207C25.5351 19.7207 28.3938 18.5371 30.5436 16.3867" stroke="currentColor"/>
+        <path d="M14.4449 28.6006C18.8841 24.162 26.1048 24.1633 30.5433 28.6006" stroke="currentColor"/>
+      </symbol>
+      <symbol id="icon-educacion" viewBox="0 0 45 45">
+        <path d="M30.9033 29.4004C29.1478 27.6455 28.1816 25.3126 28.1816 22.8301C28.1816 20.3483 29.1478 18.0147 30.9033 16.2598" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M13.1292 16.2598C14.8847 18.0147 15.8509 20.3483 15.8509 22.8301C15.8509 25.3126 14.8847 27.6455 13.1292 29.4004" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M17.123 31.3008C20.1396 33.0422 23.8887 33.041 26.9042 31.3008C29.9204 29.5592 31.7949 26.3125 31.7949 22.8301C31.7947 19.4562 30.036 16.3042 27.1845 14.5283L26.9042 14.3604C25.3967 13.4896 23.7058 13.0537 22.0136 13.0537C20.3221 13.0538 18.6304 13.4896 17.123 14.3604C14.1078 16.1006 12.2335 19.3472 12.2333 22.8301C12.2333 26.2035 13.9924 29.3557 16.8437 31.1328L17.123 31.3008Z" stroke="currentColor"/>
+        <path d="M21.2008 11.7339C22.4635 16.4465 27.3238 19.2554 32.0383 17.9908" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M11.901 27.3027C16.8124 25.9845 21.8863 28.9124 23.2039 33.8281" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M32.0337 27.6688C29.7512 27.0565 27.366 27.3711 25.3189 28.5528C23.2719 29.7346 21.8073 31.6427 21.1962 33.9258" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M11.9007 18.3576C12.6981 18.5713 13.4979 18.6729 14.2866 18.6729C18.3607 18.6729 22.0997 15.9499 23.2036 11.8316" stroke="currentColor" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ════════════════════════════════════════════
+       SCREEN 1 — HOME
+  ═════════════════════════════════════════════ -->
+  <div class="screen active" id="s-home">
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  CTA FOOTER — sticky bottom, z-index 0          ║
+         ║  Queda detrás. El scroll body lo revela al final ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="home-cta-footer">
+      <div class="home-cta-layout">
+
+        <!-- Columna izquierda: texto + CTAs -->
+        <div class="home-cta-left">
+          <p class="home-cta-eyebrow">¿Necesitas ayuda?</p>
+          <h2 class="home-cta-title">Hablemos de<br>tu estancia<br>en SHA.</h2>
+          <p class="home-cta-sub">Nuestro equipo está disponible para orientarte sobre el programa que mejor se adapta a tus objetivos de salud y acompañarte desde la primera consulta.</p>
+          <div class="home-cta-actions">
+            <a class="btn-gold" style="flex-shrink:0;">Llamar a SHA ↗</a>
+            <a class="home-cta-email-link">Escribir por email →</a>
+          </div>
+          <div class="home-cta-contact-row">
+            <span>+34 966 811 199</span>
+            <span class="home-cta-contact-sep">·</span>
+            <span>reservas@sha.es</span>
+            <span class="home-cta-contact-sep">·</span>
+            <span>WhatsApp disponible</span>
+          </div>
+        </div>
+
+        <!-- Columna derecha: imagen editorial -->
+        <div class="home-cta-img-col">
+          <div class="home-cta-img"><span>IMG editorial</span></div>
+        </div>
+
+      </div>
+
+      <!-- Barra inferior (footer links) -->
+      <div class="home-cta-bar">
+        <div class="home-cta-bar-inner">
+          <span class="footer-logo">SHA</span>
+          <div class="footer-links">
+            <a>Contacto</a>
+            <a>Descargar catálogo PDF</a>
+            <a>Aviso legal</a>
+            <a>ES · EN</a>
+          </div>
+        </div>
+      </div>
+    </div><!-- /home-cta-footer -->
+
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  SCROLL BODY — z-index 1, se "despega" al       ║
+         ║  scrollear y revela el CTA footer de atrás      ║
+         ╚══════════════════════════════════════════════════╝ -->
+    <div class="home-scroll-body">
+
+    <!-- Header transparente sobre hero -->
+    <header class="site-header on-hero">
+      <a class="header-logo">SHA</a>
+      <nav class="header-nav">
+        <a onclick="goTo('grid')" class="active">Programas</a>
+        <a onclick="goTo('metodo')">Método</a>
+      </nav>
+      <button class="header-mobile-menu" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="header-cta">Reservar</a>
+    </header>
+
+    <!-- Hero -->
+    <section class="home-hero">
+      <div class="home-hero-bg"></div>
+      <div class="home-hero-content center">
+        <p class="eyebrow" style="color:var(--gold);">Catálogo de tratamientos y servicios</p>
+        <h1 class="home-hero-title">El catálogo de<br>bienestar SHA.</h1>
+        <p class="home-hero-sub">Todos nuestros programas y tratamientos, reunidos en un mismo lugar. Recórrelo como prefieras: por programa o por el Método Integrativo que lo inspira.</p>
+        <div class="home-hero-ctas">
+          <a class="btn-primary" onclick="goToExplore('programa')">Explorar por programa →</a>
+          <a class="btn-secondary" onclick="goToExplore('metodo')">Explorar por método →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EXPLORE TABS ── -->
+    <div class="explore-tabs-wrap" id="explore">
+      <div class="explore-tabs">
+        <div class="explore-tab active" data-tab="programa" onclick="scrollToSection('programa')">Explorar por programa <span class="explore-tab-count">· 8</span></div>
+        <div class="explore-tab" data-tab="metodo" onclick="scrollToSection('metodo')">Explorar por método <span class="explore-tab-count">· 10</span></div>
+      </div>
+    </div>
+
+    <section class="section" style="background:var(--off-white);">
+      <div class="container">
+
+        <!-- PANEL: PROGRAMAS -->
+        <div class="explore-panel" id="sec-programa" data-tab="programa">
+          <p class="eyebrow">Programas</p>
+          <h2 class="section-title">Experiencias que transforman.</h2>
+          <p class="explore-panel-intro">Estancias inmersivas que unen ciencia y bienestar. Elige la tuya por objetivo.</p>
+
+          <div class="explore-grid">
+            <div class="program-card explore-card" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Rebalance &amp; Energize</p>
+                <p class="program-card-goal">Revitalice su cuerpo para restablecer y alcanzar su máxima vitalidad, así como equilibrio físico y mental.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 625 €</strong>por huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Detox &amp; Optimal Weight</p>
+                <p class="program-card-goal">Reequilibre la digestión, el metabolismo y el peso mediante un enfoque antiinflamatorio estructurado.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 1.015 €</strong>por huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Intensive Detox &amp; Optimal Weight</p>
+                <p class="program-card-goal">Reactive su metabolismo, depure su organismo y alcance un equilibrio de peso sostenible.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 1.240 €</strong>por huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Advanced Longevity</p>
+                <p class="program-card-goal">Active la regeneración celular y optimice biomarcadores clave para una longevidad saludable.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 1.565 €</strong>por huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card beyond" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Leaders Health &amp; Performance</p>
+                <p class="program-card-goal">Optimice su rendimiento, resiliencia y vitalidad para afrontar estilos de vida de alta exigencia.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 1.265 €</strong>por huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card beyond" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Stay Your Way</p>
+                <p class="program-card-goal">Diseñe su experiencia SHA con un programa flexible adaptado a sus metas de salud y bienestar.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 965 €</strong>por huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card beyond" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Tailor-Made</p>
+                <p class="program-card-goal">Programa de salud 100% personalizado basado en sus datos, objetivos y estilo de vida.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Bajo consulta</strong>Precio personalizado</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+            <div class="program-card explore-card beyond" onclick="goTo('programa')">
+              <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+              <div class="program-card-body">
+                <p class="program-card-name">Cellular Regeneration</p>
+                <p class="program-card-goal">Restaure y proteja el cuerpo a nivel celular mediante medicina regenerativa avanzada y terapias basadas en evidencia.</p>
+                <div class="program-card-footer"><div class="program-card-meta"><strong>Desde 4.090 USD</strong>SHA México · huésped/noche</div><a class="btn-text">Ver →</a></div>
+              </div>
+            </div>
+          </div>
+          <div class="load-more-wrap"><button class="load-more-btn" onclick="expandPanel(this)">Cargar más programas +</button></div>
+        </div>
+
+        <!-- PANEL: MÉTODO -->
+        <div class="explore-panel" id="sec-metodo" data-tab="metodo">
+          <p class="eyebrow">Método Integrativo</p>
+          <h2 class="section-title">El arte de cuidar la vida.</h2>
+          <p class="explore-panel-intro">Diez disciplinas que se entrelazan para cuidar cuerpo, mente y emoción. Explora cada una y descubre los programas que la incluyen.</p>
+
+          <div class="explore-grid">
+            <div class="discipline-card explore-card" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-diagnostico"/></svg></span><span class="discipline-card-num">01</span></div><p class="discipline-card-name">Diagnóstico Proactivo Avanzado</p><p class="discipline-card-desc">Conocer tu salud en profundidad antes de actuar.</p></div>
+            <div class="discipline-card explore-card" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-longevidad"/></svg></span><span class="discipline-card-num">02</span></div><p class="discipline-card-name">Longevidad &amp; Medicina Funcional</p><p class="discipline-card-desc">Ralentizar el envejecimiento desde la raíz.</p></div>
+            <div class="discipline-card explore-card" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-nutricion"/></svg></span><span class="discipline-card-num">03</span></div><p class="discipline-card-name">Nutrición &amp; Salud Intestinal</p><p class="discipline-card-desc">La alimentación como primer tratamiento.</p></div>
+            <div class="discipline-card explore-card" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-rendimiento"/></svg></span><span class="discipline-card-num">04</span></div><p class="discipline-card-name">Rendimiento Físico</p><p class="discipline-card-desc">Movimiento, fuerza y recuperación a medida.</p></div>
+            <div class="discipline-card explore-card beyond" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-sueno"/></svg></span><span class="discipline-card-num">05</span></div><p class="discipline-card-name">Optimización del Sueño</p><p class="discipline-card-desc">Restaurar el descanso profundo y reparador.</p></div>
+            <div class="discipline-card explore-card beyond" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-regenerativa"/></svg></span><span class="discipline-card-num">06</span></div><p class="discipline-card-name">Medicina Regenerativa</p><p class="discipline-card-desc">Activar la capacidad del cuerpo de renovarse.</p></div>
+            <div class="discipline-card explore-card beyond" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-cerebral"/></svg></span><span class="discipline-card-num">07</span></div><p class="discipline-card-name">Salud Cerebral &amp; Bienestar Emocional</p><p class="discipline-card-desc">Equilibrio cognitivo y serenidad emocional.</p></div>
+            <div class="discipline-card explore-card beyond" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-estetica"/></svg></span><span class="discipline-card-num">08</span></div><p class="discipline-card-name">Estética Avanzada</p><p class="discipline-card-desc">Belleza que nace de la salud y la ciencia.</p></div>
+            <div class="discipline-card explore-card beyond" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-holistica"/></svg></span><span class="discipline-card-num">09</span></div><p class="discipline-card-name">Salud Holística &amp; Bienestar</p><p class="discipline-card-desc">Terapias que integran cuerpo y mente.</p></div>
+            <div class="discipline-card explore-card beyond" onclick="goTo('disciplina')"><div class="discipline-card-head"><span class="discipline-card-icon"><svg viewBox="0 0 45 45"><use href="#icon-educacion"/></svg></span><span class="discipline-card-num">10</span></div><p class="discipline-card-name">Educación &amp; Empoderamiento en Salud</p><p class="discipline-card-desc">Hábitos que perduran más allá de SHA.</p></div>
+          </div>
+          <div class="load-more-wrap"><button class="load-more-btn" onclick="expandPanel(this)">Cargar más disciplinas +</button></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- (sección antigua eliminada) -->
+    <div style="display:none;">
+
+      <!-- Split layout -->
+      <div class="home-split" style="display:grid;grid-template-columns:1fr 1fr;min-height:600px;">
+
+        <!-- PATH A — PROGRAMAS -->
+        <div style="background:var(--white);border-top:3px solid var(--black);padding:40px 40px 48px;">
+          <div style="max-width:520px;">
+            <div style="display:inline-flex;align-items:center;gap:8px;background:var(--black);color:var(--white);padding:5px 12px;border-radius:2px;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;">Programas</div>
+            <h3 style="font-size:24px;font-weight:900;color:var(--black);line-height:1.1;margin-bottom:8px;">Experiencias que<br>transforman.</h3>
+            <p style="font-size:13px;color:var(--warm-500);margin-bottom:32px;line-height:1.65;">Estancias inmersivas que unen ciencia y bienestar para acompañarte hacia tu mejor versión.</p>
+
+            <!-- Mini program cards -->
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+
+              <div class="program-card" onclick="goTo('programa')" style="display:flex;align-items:center;gap:0;border-radius:4px;">
+                <div style="width:80px;height:64px;flex-shrink:0;background:linear-gradient(140deg,#2E2920,#1C1710);display:flex;align-items:center;justify-content:center;">
+                  <span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span>
+                </div>
+                <div class="program-card-body" style="padding:10px 14px;flex:1;">
+                  <p class="program-card-name" style="font-size:11px;margin-bottom:2px;">Rebalance & Energize</p>
+                  <p class="program-card-meta" style="font-size:11px;color:var(--warm-400);">7 noches · Desde 625€</p>
+                </div>
+                <span style="padding-right:14px;color:var(--warm-300);font-size:14px;">→</span>
+              </div>
+
+              <div class="program-card" style="display:flex;align-items:center;gap:0;border-radius:4px;">
+                <div style="width:80px;height:64px;flex-shrink:0;background:linear-gradient(140deg,#2E2920,#1C1710);display:flex;align-items:center;justify-content:center;">
+                  <span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span>
+                </div>
+                <div class="program-card-body" style="padding:10px 14px;flex:1;">
+                  <p class="program-card-name" style="font-size:11px;margin-bottom:2px;">Detox & Cleanse</p>
+                  <p class="program-card-meta" style="font-size:11px;color:var(--warm-400);">7 noches · Desde 580€</p>
+                </div>
+                <span style="padding-right:14px;color:var(--warm-300);font-size:14px;">→</span>
+              </div>
+
+              <div class="program-card" style="display:flex;align-items:center;gap:0;border-radius:4px;">
+                <div style="width:80px;height:64px;flex-shrink:0;background:linear-gradient(140deg,#2E2920,#1C1710);display:flex;align-items:center;justify-content:center;">
+                  <span style="font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span>
+                </div>
+                <div class="program-card-body" style="padding:10px 14px;flex:1;">
+                  <p class="program-card-name" style="font-size:11px;margin-bottom:2px;">Weight Loss</p>
+                  <p class="program-card-meta" style="font-size:11px;color:var(--warm-400);">10 noches · Desde 890€</p>
+                </div>
+                <span style="padding-right:14px;color:var(--warm-300);font-size:14px;">→</span>
+              </div>
+
+              <div style="padding:10px 14px;border:1px dashed var(--warm-200);border-radius:4px;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;color:var(--warm-400);">+ 6 programas más</span>
+                <a class="btn-text" onclick="goTo('grid')" style="font-size:10px;">Ver todos →</a>
+              </div>
+            </div>
+
+            <a class="btn-primary" style="background:var(--black);color:var(--white);width:100%;justify-content:space-between;" onclick="goTo('grid')">
+              <span>Ver todos los programas</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PATH B — MÉTODO -->
+        <div style="background:var(--black);border-top:3px solid var(--gold);padding:40px 40px 48px;">
+          <div style="max-width:520px;">
+            <div style="display:inline-flex;align-items:center;gap:8px;background:var(--gold-light);border:1px solid var(--gold-border);color:var(--gold);padding:5px 12px;border-radius:2px;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;">Método Integrativo</div>
+            <h3 style="font-size:24px;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:8px;">El arte de<br>cuidar la vida.</h3>
+            <p style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:32px;line-height:1.65;">Ocho disciplinas que se entrelazan para cuidar cuerpo, mente y emoción. El alma que da forma a cada programa SHA.</p>
+
+            <!-- Disciplines mini grid -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;">
+              <div onclick="goTo('disciplina')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+                <span style="font-size:16px;display:block;margin-bottom:6px;">🌿</span>
+                <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.3;">Nutrición y Salud Intestinal</p>
+              </div>
+              <div onclick="goTo('disciplina')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+                <span style="font-size:16px;display:block;margin-bottom:6px;">⚕️</span>
+                <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.3;">Medicina Funcional y Longevidad</p>
+              </div>
+              <div onclick="goTo('disciplina')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+                <span style="font-size:16px;display:block;margin-bottom:6px;">🧠</span>
+                <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.3;">Salud Cognitiva y Emocional</p>
+              </div>
+              <div onclick="goTo('disciplina')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+                <span style="font-size:16px;display:block;margin-bottom:6px;">💪</span>
+                <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.3;">Rendimiento Físico</p>
+              </div>
+              <div onclick="goTo('metodo')" style="background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);border-radius:4px;padding:12px;cursor:pointer;grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;color:rgba(255,255,255,.3);">+ 4 disciplinas más</span>
+                <a class="btn-text" style="color:var(--gold);border-bottom-color:var(--gold);font-size:10px;" onclick="goTo('metodo')">Ver todas →</a>
+              </div>
+            </div>
+
+            <a class="btn-gold" style="width:100%;justify-content:space-between;" onclick="goTo('metodo')">
+              <span>Explorar el Método Integrativo</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /sección antigua oculta -->
+
+    </div><!-- /home-scroll-body -->
+
+  </div><!-- /screen home -->
+
+
+  <!-- ════════════════════════════════════════════
+       SCREEN 2 — GRID PROGRAMAS
+  ═════════════════════════════════════════════ -->
+  <div class="screen" id="s-grid">
+
+    <header class="site-header">
+      <a class="header-logo" onclick="goTo('home')">SHA</a>
+      <nav class="header-nav">
+        <a onclick="goTo('grid')" class="active">Programas</a>
+        <a onclick="goTo('metodo')">Método</a>
+      </nav>
+      <button class="header-mobile-menu" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="header-cta">Reservar</a>
+    </header>
+
+    <!-- Page hero sm -->
+    <div class="page-hero-sm">
+      <div class="page-hero-sm-inner">
+        <p class="eyebrow">Catálogo SHA</p>
+        <h1 class="page-hero-sm-title">Nuestros<br>programas.</h1>
+        <p class="page-hero-sm-sub">Nueve experiencias, cada una concebida desde el Método Integrativo SHA.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid-programs">
+
+          <!-- Cards -->
+          <div class="program-card" onclick="goTo('programa')">
+            <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+            <div class="program-card-body">
+              <p class="program-card-name">Rebalance & Energize</p>
+              <p class="program-card-goal">Recupera energía y equilibrio vital</p>
+              <div class="program-card-footer">
+                <div class="program-card-meta"><strong>Desde 625€</strong>7 noches · Sin aloj.</div>
+                <a class="btn-text">Ver →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+            <div class="program-card-body">
+              <p class="program-card-name">Detox & Cleanse</p>
+              <p class="program-card-goal">Depuración profunda y reseteo digestivo</p>
+              <div class="program-card-footer">
+                <div class="program-card-meta"><strong>Desde 580€</strong>7 noches · Sin aloj.</div>
+                <a class="btn-text">Ver →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+            <div class="program-card-body">
+              <p class="program-card-name">Weight Loss</p>
+              <p class="program-card-goal">Pérdida de peso con nutrición de precisión</p>
+              <div class="program-card-footer">
+                <div class="program-card-meta"><strong>Desde 890€</strong>10 noches · Sin aloj.</div>
+                <a class="btn-text">Ver →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+            <div class="program-card-body">
+              <p class="program-card-name">Longevity Pro</p>
+              <p class="program-card-goal">Medicina preventiva y optimización del envejecimiento</p>
+              <div class="program-card-footer">
+                <div class="program-card-meta"><strong>Desde 1.200€</strong>14 noches · Sin aloj.</div>
+                <a class="btn-text">Ver →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+            <div class="program-card-body">
+              <p class="program-card-name">Stress & Sleep</p>
+              <p class="program-card-goal">Gestión del estrés crónico y recuperación del sueño</p>
+              <div class="program-card-footer">
+                <div class="program-card-meta"><strong>Desde 720€</strong>7 noches · Sin aloj.</div>
+                <a class="btn-text">Ver →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-card-img"><span class="program-card-img-label">Imagen editorial</span></div>
+            <div class="program-card-body">
+              <p class="program-card-name">Skin Health</p>
+              <p class="program-card-goal">Dermatología funcional y rejuvenecimiento celular</p>
+              <div class="program-card-footer">
+                <div class="program-card-meta"><strong>Desde 650€</strong>7 noches · Sin aloj.</div>
+                <a class="btn-text">Ver →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box indeciso -->
+          <div class="indeciso-box">
+            <div class="indeciso-text">
+              <h3>Déjate guiar por nuestro Método.</h3>
+              <p>Descubre el Método Integrativo SHA, la filosofía de salud que inspira cada uno de nuestros programas.</p>
+            </div>
+            <a class="btn-outline" onclick="goTo('metodo')">Conocer el método →</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span class="footer-logo">SHA</span>
+        <div class="footer-links">
+          <a>Contacto</a><a>Descargar catálogo PDF</a><a>Aviso legal</a><a>ES · EN</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /screen grid -->
+
+
+  <!-- ════════════════════════════════════════════
+       SCREEN 3 — DETALLE PROGRAMA
+  ═════════════════════════════════════════════ -->
+  <div class="screen" id="s-programa">
+
+    <header class="site-header">
+      <a class="header-logo" onclick="goTo('home')">SHA</a>
+      <nav class="header-nav">
+        <a onclick="goTo('grid')" class="active">Programas</a>
+        <a onclick="goTo('metodo')">Método</a>
+      </nav>
+      <button class="header-mobile-menu" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="header-cta">Reservar</a>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <div class="breadcrumb-inner">
+        <a class="breadcrumb-item" onclick="goTo('home')">Inicio</a>
+        <span class="breadcrumb-sep">/</span>
+        <a class="breadcrumb-item" onclick="goTo('grid')">Programas</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Rebalance & Energize</span>
+      </div>
+    </div>
+
+    <!-- Program hero -->
+    <div class="program-detail-hero">
+      <div class="program-detail-hero-inner">
+        <div>
+          <p class="eyebrow">Programa SHA</p>
+          <h1 class="program-detail-name">Rebalance<br>& Energize</h1>
+          <p class="program-detail-meta">Desde 4 noches · SHA España y México</p>
+          <p class="program-detail-desc">Revitalice su cuerpo para restablecer y alcanzar su máxima vitalidad, así como equilibrio físico y mental. Este programa interrumpe el ciclo del estrés mediante terapias de precisión del sistema nervioso, prácticas holísticas y acondicionamiento físico específico.</p>
+        </div>
+        <div class="program-detail-cta-panel">
+          <p class="program-price-big">Desde 625 €</p>
+          <p class="program-price-note">por huésped/noche · todo incluido</p>
+          <a class="btn-gold" style="width:100%;justify-content:center;">Reservar este programa ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Treatments -->
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Contenido del programa</p>
+        <h2 class="section-title" style="margin-bottom:8px;">Tratamientos incluidos</h2>
+        <p style="font-size:13px;color:var(--warm-400);margin-bottom:40px;">Organizados por disciplina del Método Integrativo SHA</p>
+
+        <!-- Disciplinas en acordeón, cada una con sus tratamientos (mismo componente que Método Integrativo) -->
+        <div class="tx-groups" id="tx-groups"></div>
+
+        <!-- CTAs finales -->
+        <div style="margin-top:48px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <a class="btn-gold">Reservar este programa ↗</a>
+          <a class="btn-outline">Descargar PDF ↓</a>
+        </div>
+
+        <!-- Otros programas -->
+        <div class="sep">
+          <div class="sep-line"></div>
+          <span class="sep-text">Otros programas que pueden interesarte</span>
+          <div class="sep-line"></div>
+        </div>
+
+        <div class="hscroll-wrapper">
+          <div class="hscroll-card">
+            <div class="hscroll-card-img"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span></div>
+            <div class="hscroll-card-body">
+              <p class="hscroll-card-name">Detox & Optimal Weight</p>
+              <p class="hscroll-card-detail">Desde 1.015 € · huésped/noche</p>
+            </div>
+          </div>
+          <div class="hscroll-card">
+            <div class="hscroll-card-img"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span></div>
+            <div class="hscroll-card-body">
+              <p class="hscroll-card-name">Leaders Health & Performance</p>
+              <p class="hscroll-card-detail">Desde 1.265 € · huésped/noche</p>
+            </div>
+          </div>
+          <div class="hscroll-card">
+            <div class="hscroll-card-img"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span></div>
+            <div class="hscroll-card-body">
+              <p class="hscroll-card-name">Advanced Longevity</p>
+              <p class="hscroll-card-detail">Desde 1.565 € · huésped/noche</p>
+            </div>
+          </div>
+          <div class="hscroll-card">
+            <div class="hscroll-card-img"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span></div>
+            <div class="hscroll-card-body">
+              <p class="hscroll-card-name">Stay Your Way</p>
+              <p class="hscroll-card-detail">Desde 965 € · huésped/noche</p>
+            </div>
+          </div>
+          <div class="hscroll-card">
+            <div class="hscroll-card-img"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.15);">IMG</span></div>
+            <div class="hscroll-card-body">
+              <p class="hscroll-card-name">Tailor-Made</p>
+              <p class="hscroll-card-detail">Precio personalizado</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span class="footer-logo">SHA</span>
+        <div class="footer-links">
+          <a>Contacto</a><a>Descargar catálogo PDF</a><a>Aviso legal</a><a>ES · EN</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /screen programa -->
+
+
+  <!-- ════════════════════════════════════════════
+       SCREEN 4 — MÉTODO INTEGRATIVO
+  ═════════════════════════════════════════════ -->
+  <div class="screen method-page" id="s-metodo">
+
+    <!-- Header sobre fondo olive -->
+    <header class="method-header-bar">
+      <a class="header-logo" onclick="goTo('home')">SHA</a>
+      <nav class="header-nav">
+        <a onclick="goTo('grid')" style="color:rgba(220,230,200,.4);">Programas</a>
+        <a onclick="goTo('metodo')" style="color:rgba(220,230,200,.9);" class="active">Método</a>
+      </nav>
+      <button class="header-mobile-menu" aria-label="Menú"><span></span><span></span><span></span></button>
+      <a class="header-cta">Reservar</a>
+    </header>
+
+    <!-- Intro text -->
+    <div class="method-intro-wrap">
+      <div>
+        <p class="method-eyebrow">El Método Integrativo SHA</p>
+        <h1 class="method-title">Un enfoque<br>que lo trata<br>todo.</h1>
+      </div>
+      <p class="method-desc">SHA combina 10 disciplinas para tratar la salud de forma completa, no parcial. Cada programa incluye tratamientos de múltiples disciplinas trabajando en conjunto hacia un mismo objetivo.</p>
+    </div>
+
+    <!-- Radial diagram — desktop -->
+    <div class="method-diagram-outer">
+      <svg class="method-diagram-svg" viewBox="0 0 860 760" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#2A3A18" stop-opacity=".4"/>
+            <stop offset="100%" stop-color="#1C2910" stop-opacity="0"/>
+          </radialGradient>
+          <style>
+            .d-label { font-family:'Inter',sans-serif; font-size:11px; font-weight:600; fill:rgba(220,230,200,.72); cursor:pointer; }
+            .d-label-sm { font-family:'Inter',sans-serif; font-size:10px; font-weight:500; fill:rgba(220,230,200,.45); }
+            .d-circle { fill:none; stroke:rgba(220,230,200,.14); stroke-width:1; }
+            .d-spoke  { stroke:rgba(220,230,200,.08); stroke-width:1; }
+            .d-node-ring { fill:none; stroke:rgba(220,230,200,.28); stroke-width:1; transition:all .2s; }
+            .d-node-ring:hover { stroke:rgba(220,230,200,.8); }
+            .d-node-bg  { fill:rgba(28,41,16,.9); }
+            .d-node-bg:hover { fill:rgba(50,70,28,.9); }
+            .d-center-ring { fill:none; stroke:rgba(220,230,200,.10); stroke-width:1; }
+            .d-center-dot { fill:rgba(220,230,200,.3); }
+            .d-icon { color:rgba(220,230,200,.7); }
+          </style>
+        </defs>
+
+        <!-- Background glow -->
+        <circle cx="430" cy="380" r="300" fill="url(#bgGrad)"/>
+
+        <!-- Concentric dashed rings (like the SHA reference image) -->
+        <circle class="d-circle" cx="430" cy="380" r="280" stroke-dasharray="3 6"/>
+        <circle class="d-circle" cx="430" cy="380" r="240" stroke-dasharray="3 6"/>
+        <circle class="d-circle" cx="430" cy="380" r="200" stroke-dasharray="3 6"/>
+        <circle class="d-circle" cx="430" cy="380" r="160" stroke-dasharray="3 6"/>
+        <circle class="d-circle" cx="430" cy="380" r="120" stroke-dasharray="3 6"/>
+        <circle class="d-circle" cx="430" cy="380" r="80"  stroke-dasharray="3 6"/>
+        <circle class="d-circle" cx="430" cy="380" r="48"  stroke-dasharray="2 4"/>
+        <circle class="d-circle" cx="430" cy="380" r="28"  stroke-dasharray="2 4"/>
+        <circle class="d-circle" cx="430" cy="380" r="14"/>
+
+        <!-- Spokes (10 divisions = 36° each) -->
+        <line class="d-spoke" x1="430" y1="380" x2="430" y2="96"/>
+        <line class="d-spoke" x1="430" y1="380" x2="610" y2="133"/>
+        <line class="d-spoke" x1="430" y1="380" x2="710" y2="290"/>
+        <line class="d-spoke" x1="430" y1="380" x2="710" y2="470"/>
+        <line class="d-spoke" x1="430" y1="380" x2="610" y2="627"/>
+        <line class="d-spoke" x1="430" y1="380" x2="430" y2="664"/>
+        <line class="d-spoke" x1="430" y1="380" x2="250" y2="627"/>
+        <line class="d-spoke" x1="430" y1="380" x2="150" y2="470"/>
+        <line class="d-spoke" x1="430" y1="380" x2="150" y2="290"/>
+        <line class="d-spoke" x1="430" y1="380" x2="250" y2="133"/>
+
+        <!-- Center dot -->
+        <circle cx="430" cy="380" r="5" class="d-center-dot"/>
+
+        <!-- ── DISCIPLINE NODES ── 10 nodes at r=295 from center -->
+        <!-- Angles: 0°(top)=270°svg, then +36° each. svg angle from east -->
+        <!-- Node 1: top — Advanced Proactive Diagnosis — 270° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="430" cy="85" r="28" class="d-node-bg"/>
+          <circle cx="430" cy="85" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="422" y="70" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-diagnostico"/></svg>
+          <text x="430" y="93" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">01</text>
+          <text x="430" y="58" text-anchor="middle" class="d-label">Diagnóstico</text>
+          <text x="430" y="70" text-anchor="middle" class="d-label-sm">Proactivo Avanzado</text>
+        </g>
+
+        <!-- Node 2: top-right — Longevity & Functional Medicine — 306° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="607" cy="128" r="28" class="d-node-bg"/>
+          <circle cx="607" cy="128" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="599" y="113" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-longevidad"/></svg>
+          <text x="607" y="136" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">02</text>
+          <text x="650" y="100" text-anchor="middle" class="d-label">Longevidad &amp;</text>
+          <text x="650" y="112" text-anchor="middle" class="d-label-sm">Medicina Funcional</text>
+        </g>
+
+        <!-- Node 3: right-upper — Nutrition & Gut Health — 342° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="715" cy="283" r="28" class="d-node-bg"/>
+          <circle cx="715" cy="283" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="707" y="268" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-nutricion"/></svg>
+          <text x="715" y="291" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">03</text>
+          <text x="758" y="265" text-anchor="start" class="d-label">Nutrición &amp;</text>
+          <text x="758" y="277" text-anchor="start" class="d-label-sm">Salud Intestinal</text>
+        </g>
+
+        <!-- Node 4: right-lower — Physical Performance — 18° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="715" cy="477" r="28" class="d-node-bg"/>
+          <circle cx="715" cy="477" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="707" y="462" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-rendimiento"/></svg>
+          <text x="715" y="485" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">04</text>
+          <text x="758" y="470" text-anchor="start" class="d-label">Rendimiento</text>
+          <text x="758" y="482" text-anchor="start" class="d-label-sm">Físico</text>
+        </g>
+
+        <!-- Node 5: bottom-right — Sleep Optimization — 54° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="607" cy="632" r="28" class="d-node-bg"/>
+          <circle cx="607" cy="632" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="599" y="617" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-sueno"/></svg>
+          <text x="607" y="640" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">05</text>
+          <text x="630" y="672" text-anchor="middle" class="d-label">Optimización</text>
+          <text x="630" y="684" text-anchor="middle" class="d-label-sm">del Sueño</text>
+        </g>
+
+        <!-- Node 6: bottom — Regenerative Medicine — 90° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="430" cy="675" r="28" class="d-node-bg"/>
+          <circle cx="430" cy="675" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="422" y="660" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-regenerativa"/></svg>
+          <text x="430" y="683" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">06</text>
+          <text x="430" y="715" text-anchor="middle" class="d-label">Medicina</text>
+          <text x="430" y="727" text-anchor="middle" class="d-label-sm">Regenerativa</text>
+        </g>
+
+        <!-- Node 7: bottom-left — Brain Health — 126° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="253" cy="632" r="28" class="d-node-bg"/>
+          <circle cx="253" cy="632" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="245" y="617" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-cerebral"/></svg>
+          <text x="253" y="640" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">07</text>
+          <text x="222" y="672" text-anchor="middle" class="d-label">Salud Cerebral &amp;</text>
+          <text x="222" y="684" text-anchor="middle" class="d-label-sm">Bienestar Emocional</text>
+        </g>
+
+        <!-- Node 8: left-lower — Advanced Aesthetics — 162° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="145" cy="477" r="28" class="d-node-bg"/>
+          <circle cx="145" cy="477" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="137" y="462" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-estetica"/></svg>
+          <text x="145" y="485" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">08</text>
+          <text x="0" y="470" text-anchor="start" class="d-label">Estética</text>
+          <text x="0" y="482" text-anchor="start" class="d-label-sm">Avanzada</text>
+        </g>
+
+        <!-- Node 9: left-upper — Holistic Health — 198° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="145" cy="283" r="28" class="d-node-bg"/>
+          <circle cx="145" cy="283" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="137" y="268" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-holistica"/></svg>
+          <text x="145" y="291" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">09</text>
+          <text x="0" y="265" text-anchor="start" class="d-label">Salud Holística</text>
+          <text x="0" y="277" text-anchor="start" class="d-label-sm">&amp; Bienestar</text>
+        </g>
+
+        <!-- Node 10: top-left — Health Education — 234° -->
+        <g onclick="goTo('disciplina')" style="cursor:pointer;">
+          <circle cx="253" cy="128" r="28" class="d-node-bg"/>
+          <circle cx="253" cy="128" r="28" class="d-node-ring"/>
+          <svg class="d-icon" x="245" y="113" width="16" height="16" viewBox="0 0 45 45"><use href="#icon-educacion"/></svg>
+          <text x="253" y="136" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;fill:rgba(220,230,200,.5);">10</text>
+          <text x="210" y="100" text-anchor="middle" class="d-label">Educación &amp;</text>
+          <text x="210" y="112" text-anchor="middle" class="d-label-sm">Empoderamiento</text>
+        </g>
+
+        <!-- Center label -->
+        <text x="430" y="373" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:800;fill:rgba(220,230,200,.6);letter-spacing:.12em;">MÉTODO</text>
+        <text x="430" y="390" text-anchor="middle" style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;fill:rgba(220,230,200,.3);letter-spacing:.18em;">INTEGRATIVO SHA</text>
+      </svg>
+    </div>
+
+    <!-- Mobile list fallback -->
+    <div class="method-list-mobile">
+      <p class="method-eyebrow" style="padding:0 0 16px;">10 disciplinas · toca para explorar</p>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-diagnostico"/></svg></div><p class="method-list-name">Diagnóstico Proactivo Avanzado</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-longevidad"/></svg></div><p class="method-list-name">Longevidad &amp; Medicina Funcional</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-nutricion"/></svg></div><p class="method-list-name">Nutrición &amp; Salud Intestinal</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-rendimiento"/></svg></div><p class="method-list-name">Rendimiento Físico</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-sueno"/></svg></div><p class="method-list-name">Optimización del Sueño</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-regenerativa"/></svg></div><p class="method-list-name">Medicina Regenerativa</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-cerebral"/></svg></div><p class="method-list-name">Salud Cerebral &amp; Bienestar Emocional</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-estetica"/></svg></div><p class="method-list-name">Estética Avanzada</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-holistica"/></svg></div><p class="method-list-name">Salud Holística &amp; Bienestar</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+      <div class="method-list-item" onclick="goTo('disciplina')"><div class="method-list-icon"><svg viewBox="0 0 45 45"><use href="#icon-educacion"/></svg></div><p class="method-list-name">Educación &amp; Empoderamiento en Salud</p><span style="color:rgba(220,230,200,.25);">→</span></div>
+    </div>
+
+    <!-- CTA bottom -->
+    <div style="padding:0 32px 80px;text-align:center;">
+      <a class="btn-primary" style="background:rgba(220,230,200,.08);color:rgba(220,230,200,.7);border:1px solid rgba(220,230,200,.15);" onclick="goTo('grid')">Ver todos los programas SHA →</a>
+    </div>
+
+    <footer style="background:rgba(0,0,0,.3);border-top:1px solid rgba(220,230,200,.06);padding:32px 0;">
+      <div class="site-footer-inner">
+        <span class="footer-logo">SHA</span>
+        <div class="footer-links">
+          <a style="color:rgba(220,230,200,.2);">Contacto</a>
+          <a style="color:rgba(220,230,200,.2);">Descargar catálogo PDF</a>
+          <a style="color:rgba(220,230,200,.2);">Aviso legal</a>
+          <a style="color:rgba(220,230,200,.2);">ES · EN</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /screen metodo -->
+
+
+  <!-- ════════════════════════════════════════════
+       SCREEN 5 — DETALLE DISCIPLINA
+  ═════════════════════════════════════════════ -->
+  <div class="screen" id="s-disciplina">
+
+    <header class="site-header">
+      <a class="header-logo" onclick="goTo('home')">SHA</a>
+      <nav class="header-nav">
+        <a onclick="goTo('grid')">Programas</a>
+        <a onclick="goTo('metodo')" class="active">Método</a>
+      </nav>
+      <button class="header-mobile-menu" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="header-cta">Reservar</a>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <div class="breadcrumb-inner">
+        <a class="breadcrumb-item" onclick="goTo('home')">Inicio</a>
+        <span class="breadcrumb-sep">/</span>
+        <a class="breadcrumb-item" onclick="goTo('metodo')">Método Integrativo</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Nutrición y Salud Intestinal</span>
+      </div>
+    </div>
+
+    <!-- Discipline hero -->
+    <div class="discipline-hero">
+      <div class="discipline-hero-inner">
+        <p class="eyebrow">Disciplina SHA</p>
+        <h1 class="discipline-hero-title">Nutrición y<br>Salud Intestinal</h1>
+        <p class="discipline-hero-desc">Abordamos la nutrición desde la precisión funcional: qué comes, cómo lo metabolizas y cómo afecta a tu salud intestinal y sistémica. En SHA, la alimentación es el primer tratamiento.</p>
+      </div>
+    </div>
+
+    <!-- Treatments -->
+    <section class="section">
+      <div class="container">
+
+        <div class="disc-cols">
+          <!-- Treatments list (acordeón con detalle) -->
+          <div>
+            <p class="eyebrow">Tratamientos y servicios</p>
+            <h2 class="section-title" style="margin-bottom:8px;">Tratamientos<br>disponibles</h2>
+            <p style="font-size:13px;color:var(--warm-400);margin-bottom:28px;">8 tratamientos · toca cada uno para ver su detalle</p>
+
+            <div>
+              <div class="tx-item open">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Consulta de Nutrición Saludable</p>
+                  <div class="tx-right"><div class="tx-toggle">−</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Incluye un análisis de composición corporal e historial nutricional para comprender tus hábitos y necesidades. A partir de ahí se elabora un menú personalizado dentro del Método Nutricional SHA, complementado con infusiones terapéuticas y suplementos específicos.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Plan de Salud Personalizado</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Un conjunto de recomendaciones sobre terapias naturales, dieta, suplementación y hábitos saludables, definido tras una revisión completa que realiza tu consultor nutricional a partir de la consulta inicial.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Sesión de Alimentación Emocional</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Un diagnóstico inicial identifica las barreras psicológicas y emocionales que dificultan mantener hábitos saludables y un peso óptimo, abordando bloqueos inconscientes como el autosabotaje a través de técnicas especializadas.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Consulta de Salud Intestinal</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Consulta especializada que evalúa el equilibrio digestivo con un enfoque holístico en la microbiota. Identifica desequilibrios que afectan al bienestar y ofrece recomendaciones para optimizar la digestión y la absorción de nutrientes.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">ElipseGenes</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Estudio de polimorfismos genéticos con sólida evidencia científica sobre la absorción, el metabolismo y la función de los nutrientes. Permite personalizar la nutrición desde el genoma y afinar las estrategias de prevención.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Estudio Completo de Sensibilidad Alimentaria</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Análisis avanzado que detecta reacciones adversas del sistema inmune a distintos alimentos mediante anticuerpos IgG, incluso sin síntomas evidentes. Se asocia a inflamación crónica, trastornos digestivos, fatiga o problemas dermatológicos.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Test de Disbiosis Intestinal</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Herramienta clave para detectar desequilibrios en la microbiota que pueden afectar a la digestión, la inmunidad y el bienestar general, orientando un protocolo de restauración intestinal.</p></div>
+              </div>
+              <div class="tx-item">
+                <div class="tx-head" onclick="toggleTx(this)">
+                  <p class="tx-name">Chef's Studio · Cocina Saludable</p>
+                  <div class="tx-right"><div class="tx-toggle">+</div></div>
+                </div>
+                <div class="tx-body"><p class="tx-desc">Sesiones prácticas de coaching nutricional y cocina saludable para llevar el conocimiento de SHA Nutrition a tu día a día y transformar tus hábitos de forma duradera.</p></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Programs that include this (sticky) -->
+          <div class="disc-programs-col" id="disc-programs">
+            <p class="eyebrow">Incluida en</p>
+            <h2 class="section-title" style="margin-bottom:32px;">Programas con esta<br>disciplina</h2>
+
+            <div class="mini-programs-grid" style="grid-template-columns:1fr;">
+              <div class="mini-program-card" onclick="goTo('programa')">
+                <div class="mini-program-thumb"></div>
+                <div>
+                  <p class="mini-program-name">Rebalance & Energize</p>
+                  <p class="mini-program-detail">Desde 625 € · huésped/noche</p>
+                </div>
+                <span class="mini-program-arrow">→</span>
+              </div>
+              <div class="mini-program-card">
+                <div class="mini-program-thumb"></div>
+                <div>
+                  <p class="mini-program-name">Detox & Optimal Weight</p>
+                  <p class="mini-program-detail">Desde 1.015 € · huésped/noche</p>
+                </div>
+                <span class="mini-program-arrow">→</span>
+              </div>
+              <div class="mini-program-card">
+                <div class="mini-program-thumb"></div>
+                <div>
+                  <p class="mini-program-name">Leaders Health & Performance</p>
+                  <p class="mini-program-detail">Desde 1.265 € · huésped/noche</p>
+                </div>
+                <span class="mini-program-arrow">→</span>
+              </div>
+              <div class="mini-program-card">
+                <div class="mini-program-thumb"></div>
+                <div>
+                  <p class="mini-program-name">Advanced Longevity</p>
+                  <p class="mini-program-detail">Desde 1.565 € · huésped/noche</p>
+                </div>
+                <span class="mini-program-arrow">→</span>
+              </div>
+            </div>
+
+            <div style="margin-top:20px;">
+              <a class="btn-outline" onclick="goTo('grid')">Ver todos los programas →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Otros métodos integrativos relacionados -->
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="sep">
+          <div class="sep-line"></div>
+          <span class="sep-text">Otras disciplinas del Método Integrativo</span>
+          <div class="sep-line"></div>
+        </div>
+
+        <div class="hscroll-wrapper" style="gap:12px;">
+          <div class="disc-related-card" onclick="goTo('disciplina')">
+            <div class="disc-related-num">02</div>
+            <p class="disc-related-name">Longevidad &amp; Medicina Funcional</p>
+            <p class="disc-related-desc">Ralentizar el envejecimiento desde la raíz.</p>
+            <span class="disc-related-arrow">→</span>
+          </div>
+          <div class="disc-related-card" onclick="goTo('disciplina')">
+            <div class="disc-related-num">04</div>
+            <p class="disc-related-name">Rendimiento Físico</p>
+            <p class="disc-related-desc">Movimiento, fuerza y recuperación a medida.</p>
+            <span class="disc-related-arrow">→</span>
+          </div>
+          <div class="disc-related-card" onclick="goTo('disciplina')">
+            <div class="disc-related-num">05</div>
+            <p class="disc-related-name">Optimización del Sueño</p>
+            <p class="disc-related-desc">Restaurar el descanso profundo y reparador.</p>
+            <span class="disc-related-arrow">→</span>
+          </div>
+          <div class="disc-related-card" onclick="goTo('disciplina')">
+            <div class="disc-related-num">07</div>
+            <p class="disc-related-name">Salud Cerebral &amp; Bienestar Emocional</p>
+            <p class="disc-related-desc">Equilibrio cognitivo y serenidad emocional.</p>
+            <span class="disc-related-arrow">→</span>
+          </div>
+          <div class="disc-related-card" onclick="goTo('disciplina')">
+            <div class="disc-related-num">09</div>
+            <p class="disc-related-name">Salud Holística &amp; Bienestar</p>
+            <p class="disc-related-desc">Terapias que integran cuerpo y mente.</p>
+            <span class="disc-related-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Barra fija (solo mobile): la columna sticky de desktop se convierte en CTA -->
+    <div class="disc-mobile-bar">
+      <a class="btn-gold" style="justify-content:center;" onclick="document.getElementById('disc-programs').scrollIntoView({behavior:'smooth'})">Ver programas con esta disciplina →</a>
+    </div>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span class="footer-logo">SHA</span>
+        <div class="footer-links">
+          <a>Contacto</a><a>Descargar catálogo PDF</a><a>Aviso legal</a><a>ES · EN</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /screen disciplina -->
+
+
+  <script>
+    /* ─── Navigation ─────────────────────── */
+    const screenMap = {
+      home:       's-home',
+      programa:   's-programa',
+      disciplina: 's-disciplina',
+    };
+    // Las antiguas pantallas índice (02 Programas / 04 Método) se sustituyen
+    // por las tabs del home. Estos alias redirigen a la tab correspondiente.
+    const tabAlias = { grid: 'programa', metodo: 'metodo' };
+
+    function goTo(id) {
+      let pendingTab = null;
+      if (tabAlias[id]) { pendingTab = tabAlias[id]; id = 'home'; }
+
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(screenMap[id]);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+      if (id === 'home' && pendingTab) {
+        requestAnimationFrame(() => scrollToSection(pendingTab));
+      }
+    }
+
+    /* ─── Explore: tab sticky con scrollspy ──────────── */
+    function setActiveTab(tab) {
+      document.querySelectorAll('.explore-tab').forEach(t =>
+        t.classList.toggle('active', t.dataset.tab === tab));
+    }
+    // Bloqueo temporal para que el click mande sobre el observer
+    let spyLock = 0;
+    function scrollToSection(tab) {
+      setActiveTab(tab);
+      spyLock = Date.now() + 700;
+      const el = document.getElementById('sec-' + tab);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Desde el hero
+    function goToExplore(tab) { scrollToSection(tab); }
+
+    // Scrollspy: activa la tab de la sección visible
+    (function initSpy() {
+      const panels = document.querySelectorAll('.explore-panel');
+      if (!panels.length || !('IntersectionObserver' in window)) return;
+      const obs = new IntersectionObserver((entries) => {
+        if (Date.now() < spyLock) return;
+        // la entrada más visible gana
+        let best = null;
+        entries.forEach(e => {
+          if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
+        });
+        if (best && best.isIntersecting) setActiveTab(best.target.dataset.tab);
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: [0, .25, .5, .75, 1] });
+      panels.forEach(p => obs.observe(p));
+    })();
+    // "Cargar más" en mobile
+    function expandPanel(btn) {
+      const panel = btn.closest('.explore-panel');
+      if (panel) panel.classList.add('expanded');
+    }
+
+    /* ─── Tratamientos: agrupados por disciplina, en acordeón ── */
+    const txData = [
+      { name: 'Diagnóstico Proactivo', tx: [
+        { n: 'Health check-up completo', dur: '120 min', fmt: 'Sesión individual', d: 'Evaluación médica integral de tu estado de salud actual. Combina analítica avanzada, exploración física y revisión de historia clínica para establecer un punto de partida preciso sobre el que diseñar tu programa.' },
+        { n: 'Análisis cardiovascular avanzado', dur: '60 min', fmt: 'Pruebas diagnósticas', d: 'Estudio del sistema cardiovascular mediante pruebas de última generación que detectan factores de riesgo de forma temprana y miden la edad real de tu corazón.' },
+        { n: 'Evaluación de bioimpedancia', dur: '30 min', fmt: 'Medición corporal', d: 'Análisis preciso de la composición corporal: masa muscular, grasa, agua y metabolismo basal, base para personalizar nutrición y entrenamiento.' },
+      ]},
+      { name: 'Nutrición Antiinflamatoria', tx: [
+        { n: 'Consulta nutricional inicial', dur: '60 min', fmt: 'Sesión individual', d: 'Primera consulta con tu nutricionista SHA para entender tus hábitos, objetivos y necesidades, y trazar la estrategia alimentaria del programa.' },
+        { n: 'Plan de nutrición personalizado', dur: 'Todo el programa', fmt: 'Plan a medida', d: 'Diseño de un plan alimentario antiinflamatorio adaptado a tu fisiología, basado en la dieta macrobiótica mediterránea propia de SHA.' },
+        { n: 'Bebidas terapéuticas SHA', dur: 'Diario', fmt: 'Incluido en estancia', d: 'Selección de infusiones, caldos y bebidas funcionales formuladas para apoyar la digestión, la hidratación y el equilibrio del organismo.' },
+        { n: 'Seguimiento nutricional diario', dur: 'Diario', fmt: 'Acompañamiento', d: 'Revisión continua de tu evolución con ajustes en tiempo real del plan según tu respuesta y sensaciones a lo largo de la estancia.' },
+        { n: 'Taller de cocina saludable', dur: '90 min', fmt: 'Sesión grupal', d: 'Aprende a llevar la cocina SHA a tu día a día: técnicas, recetas y combinaciones para mantener los resultados en casa.' },
+      ]},
+      { name: 'Rendimiento Físico', tx: [
+        { n: 'Evaluación física personalizada', dur: '60 min', fmt: 'Sesión individual', d: 'Valoración de tu condición física, movilidad y postura para diseñar un plan de ejercicio seguro y eficaz adaptado a tu nivel.' },
+        { n: 'Sesiones de entrenamiento funcional', dur: '50 min', fmt: 'Sesión individual', d: 'Entrenamiento personalizado que mejora fuerza, equilibrio y resistencia con movimientos funcionales aplicables a la vida diaria.' },
+        { n: 'Hidroterapia de recuperación', dur: '45 min', fmt: 'Circuito de aguas', d: 'Recuperación muscular y activación circulatoria mediante contrastes de temperatura y circuitos de agua terapéuticos.' },
+      ]},
+      { name: 'Medicina Funcional', tx: [
+        { n: 'Consulta de medicina integrativa', dur: '60 min', fmt: 'Sesión individual', d: 'Abordaje de tu salud desde la raíz, integrando medicina convencional y terapias complementarias con visión global.' },
+        { n: 'Análisis de microbiota', dur: '45 min', fmt: 'Prueba de laboratorio', d: 'Estudio de tu flora intestinal para identificar desequilibrios que afectan a digestión, inmunidad y estado de ánimo.' },
+        { n: 'Protocolo de suplementación', dur: 'Todo el programa', fmt: 'Plan a medida', d: 'Pauta personalizada de nutracéuticos y micronutrientes según tus déficits y objetivos de salud.' },
+        { n: 'Seguimiento de biomarcadores', dur: 'Periódico', fmt: 'Monitorización', d: 'Medición evolutiva de marcadores clave para verificar de forma objetiva los avances de tu programa.' },
+      ]},
+      { name: 'Salud Holística y Bienestar', tx: [
+        { n: 'Masaje de drenaje linfático', dur: '50 min', fmt: 'Terapia manual', d: 'Técnica suave que estimula el sistema linfático, reduce la retención de líquidos y favorece la eliminación de toxinas.' },
+        { n: 'Terapia de flotación', dur: '60 min', fmt: 'Sesión individual', d: 'Inmersión en agua con alta concentración salina que induce relajación profunda y alivia tensión física y mental.' },
+        { n: 'Sesión de acupuntura', dur: '45 min', fmt: 'Medicina tradicional', d: 'Tratamiento de medicina tradicional china para reequilibrar la energía del cuerpo y aliviar molestias específicas.' },
+      ]},
+      { name: 'Bienestar y Equilibrio Interior', tx: [
+        { n: 'Sesiones de mindfulness guiado', dur: '45 min', fmt: 'Sesión grupal', d: 'Práctica guiada de atención plena para reducir el estrés, mejorar el foco y cultivar una relación más serena contigo mismo.' },
+        { n: 'Yoga restaurativo', dur: '60 min', fmt: 'Sesión grupal', d: 'Secuencia pausada de posturas sostenidas que libera tensión, calma el sistema nervioso y restaura la energía vital.' },
+      ]},
+    ];
+
+    function renderTxDetail(index) {
+      const d = txData[index];
+      return '<div class="tx-split-img"><span class="tx-split-img-label">IMG</span></div>' +
+        '<p class="tx-split-detail-eyebrow">Método Integrativo SHA</p>' +
+        '<h3 class="tx-split-detail-title">' + d.name + '</h3>' +
+        d.tx.map(t =>
+          '<div class="tx-item">' +
+            '<div class="tx-head" onclick="toggleTx(this)">' +
+              '<p class="tx-name">' + t.n + '</p>' +
+              '<div class="tx-right"><div class="tx-toggle">+</div></div>' +
+            '</div>' +
+            '<div class="tx-body"><p class="tx-desc">' + t.d + '</p></div>' +
+          '</div>'
+        ).join('');
+    }
+
+    function selectTxGroup(index) {
+      document.querySelectorAll('.tx-method-item').forEach((el, i) =>
+        el.classList.toggle('active', i === index)
+      );
+      const detail = document.getElementById('tx-split-detail');
+      if (detail) detail.innerHTML = renderTxDetail(index);
+    }
+
+    function renderTxGroups() {
+      const root = document.getElementById('tx-groups');
+      if (!root) return;
+
+      const leftNav = txData.map((d, i) =>
+        '<div class="tx-method-item' + (i === 0 ? ' active' : '') + '" onclick="selectTxGroup(' + i + ')">' +
+          '<div>' +
+            '<span class="tx-method-name">' + d.name + '</span>' +
+            '<span class="tx-method-count">' + d.tx.length + ' tratamientos</span>' +
+          '</div>' +
+          '<span class="tx-method-arrow">→</span>' +
+        '</div>'
+      ).join('');
+
+      root.innerHTML =
+        '<div class="tx-split">' +
+          '<div class="tx-split-left">' + leftNav + '</div>' +
+          '<div id="tx-split-detail">' + renderTxDetail(0) + '</div>' +
+        '</div>';
+    }
+    renderTxGroups();
+
+    /* ─── Treatment detail (disciplina) ──── */
+    function toggleTx(head) {
+      const item = head.closest('.tx-item');
+      const toggle = head.querySelector('.tx-toggle');
+      const isOpen = item.classList.contains('open');
+      item.classList.toggle('open');
+      toggle.textContent = isOpen ? '+' : '−';
+    }
+  </script>
+
+</body>
+</html>
